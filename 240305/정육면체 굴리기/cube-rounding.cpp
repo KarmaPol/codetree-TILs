@@ -29,7 +29,6 @@ int goRight() {
     int current = map[y][x];
     if(current == 0) {
         map[y][x] = horizontals[1];
-        horizontals[1] = 0;
     }
     else {
         horizontals[1] = current;
@@ -127,7 +126,7 @@ int main() {
     vector<int> answer;
 
     int t = 0;
-    cin >> n >> m >> x >> y >> t;
+    cin >> n >> m >> y >> x >> t;
 
     for(int i = 0; i < n; i++) {
         for(int j = 0 ; j < m; j++) {
@@ -139,7 +138,7 @@ int main() {
         int dir;
         cin >> dir;
 
-        int curr_answer;
+        int curr_answer = -1;
         if(dir == 1) {
             curr_answer = goRight();
         }
@@ -152,7 +151,7 @@ int main() {
         else if(dir == 4) {
             curr_answer = goDown();
         }
-        
+
         if(curr_answer != -1) {
             answer.push_back(curr_answer);
         }
