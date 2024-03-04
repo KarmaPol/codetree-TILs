@@ -80,7 +80,6 @@ int goUp() {
     int current = map[y][x];
     if(current == 0) {
         map[y][x] = verticals[1];
-        verticals[1] = 0;
     }
     else {
         verticals[1] = current;
@@ -106,7 +105,6 @@ int goDown() {
     int current = map[y][x];
     if(current == 0) {
         map[y][x] = verticals[1];
-        verticals[1] = 0;
     }
     else {
         verticals[1] = current;
@@ -154,7 +152,7 @@ int main() {
         else if(dir == 4) {
             curr_answer = goDown();
         }
-
+        
         if(curr_answer != -1) {
             answer.push_back(curr_answer);
         }
