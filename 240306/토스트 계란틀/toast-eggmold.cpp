@@ -10,6 +10,14 @@ int dir[4][2] = {{1,0}, {0,1}, {-1, 0}, {0, -1}};
 int map[55][55];
 int visited[55][55];
 
+void reset_visited(int n) {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            visited[i][j] = 0;
+        }
+    }
+}
+
 int main() {
     // 여기에 코드를 작성해주세요.
     ios_base::sync_with_stdio(false);
@@ -28,13 +36,15 @@ int main() {
 
     while(1) {
         int isEnd = 1;
+
+        reset_visited(n);
+
         // 시작 지점 찾기
         int starty = -1, startx = -1;
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 if(visited[i][j] == 0) {
                     starty = i; startx = j;
-
                     // 시작지점에서 하나로 연결된 지점들 탐색
                     visited[starty][startx] = 1;
                     queue<pair<int, int>> q;
