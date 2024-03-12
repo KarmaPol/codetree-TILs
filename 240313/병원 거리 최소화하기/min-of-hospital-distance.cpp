@@ -1,32 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
-int map[55][55];
+vector<pair<int,int>> dist;
 vector<pair<int,int>> hospitals;
 vector<pair<int,int>> patients;
-int minval = 2e9;
 
-void makecombinations(int size, int idx, vector<int> temp) {
-    if(temp.size() == size) {
-        int totaldist = 0;
-        for(auto i : temp) {
-            auto current = hospitals[i];
-            for(auto p : patients) {
-                totaldist += abs(p.first - current.first) + abs(p.second - current.second);
-            }
-        }
-        minval = min(minval, totaldist);
-        return;
-    }
-
-    for(int i = idx; i < hospitals.size(); i++) {
-        vector<int> copy = temp;
-        copy.push_back(i);
-        makecombinations(size, idx+1, copy);
-    }
+bool cmp(pair<int,int> a, pair<int,int> b) {
+    return a.first < b.first;
 }
 
 int main() {
@@ -47,9 +31,22 @@ int main() {
         }
     }
 
-    vector<int> v;
-    makecombinations(m, 0, v);
+    for(int i = 0; i < hospitals.size(); i++) {
+        auto h = hospitals[i];
+        int tot = 0;
+        for(auto p : patients) {
+            tot += (abs(h.first - p.first) + abs(h.second - p.second));
+        }
+        dist.push_back({tot, i});
+    }
 
-    cout << minval;
+    sort(dist.begin(), dist.end(), cmp);
+
+    int answer = 0;
+    for(int i = 0; i < m; i++) {
+        answer += dist[i].first;
+    }
+
+    cout << answer;
     return 0;
 }
