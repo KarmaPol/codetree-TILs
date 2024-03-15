@@ -5,14 +5,14 @@
 
 using namespace std;
 
-vector<pair<int,int>> dist;
 vector<pair<int,int>> hospitals;
 vector<pair<int,int>> patients;
 vector<int> selected;
+int visited[15];
 int totmin = 2e9;
 
 void combinations(int size, int stage, int idx) {
-    if(size==stage) {
+    if(size == stage) {
         int tot = 0;
         for(auto p : patients) {
             int localmin = 2e9;
@@ -23,11 +23,16 @@ void combinations(int size, int stage, int idx) {
             tot += localmin;
         }
         totmin = min(totmin, tot);
+        return;
     }
 
     for(int i = idx; i < hospitals.size(); i++) {
+        if(visited[i] == 1) continue;
+
+        visited[i] = 1;
         selected.push_back(i);
-        combinations(size, stage+1, idx+1);
+        combinations(size, stage+1, i+1);
+        visited[i] = 0;
         selected.pop_back();
     }
 }
