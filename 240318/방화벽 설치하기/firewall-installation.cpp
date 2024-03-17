@@ -44,12 +44,10 @@ int countnotfire() {
     int ans = 0;
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < m; j++) {
-            // cout << map[i][j];
             if(map[i][j] == 0 && visited[i][j] != 2) {
                 ans++;
             }
         }
-        // cout << '\n';
     }
     return ans;
 }
@@ -66,7 +64,9 @@ int main() {
                 q.push({i, j});
                 visited[i][j] = 1;
             }
-            temp.push_back({i,j});
+            if(map[i][j] == 0) {
+                temp.push_back({i,j});
+            }
         }
     }
 
