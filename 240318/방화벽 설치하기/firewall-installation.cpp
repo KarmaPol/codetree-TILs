@@ -19,6 +19,7 @@ int selected[100];
 void getcmb(int idx) {
     if(combination.size() == 3) {
         combinations.push_back(combination);
+        return;
     }
 
     for(int i = idx; i < temp.size(); i++) {
@@ -26,7 +27,7 @@ void getcmb(int idx) {
 
         selected[i] = 1;
         combination.push_back(temp[i]);
-        getcmb(idx+1);
+        getcmb(i+1);
         selected[i] = 0;
         combination.pop_back();
     }
@@ -103,7 +104,7 @@ int main() {
 
         maxnotfire = max(maxnotfire, countnotfire());
     }
-
+    
     cout << maxnotfire;
 
     return 0;
