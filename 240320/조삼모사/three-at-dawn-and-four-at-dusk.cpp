@@ -49,21 +49,18 @@ int main() {
                 nightjobs.push_back(i);
             }
         }
+        
+        for(int i = 0; i < cmb.size(); i++) {
+            for(int j = 0; j < cmb.size(); j++) {
+                diff += map[cmb[i]][cmb[j]];
+            }
+        }
 
-        cmb.push_back(cmb[0]);
-        nightjobs.push_back(nightjobs[0]);
-
-        for(int i = 0; i < n/2; i++) {
-            if(n == 4 && i == 1) continue;
-            int currentm = cmb[i];
-            int nextm = cmb[i+1];
-            int currentn = nightjobs[i];
-            int nextn = nightjobs[i+1];
-
-            diff += map[currentm][nextm] + map[nextm][currentm];
-            diff -= map[currentn][nextn] + map[nextn][currentn];
-        }           
-
+        for(int i = 0; i < nightjobs.size(); i++) {
+            for(int j = 0; j < nightjobs.size(); j++) {
+                diff -= map[nightjobs[i]][nightjobs[j]];
+            }
+        }
         mindiff = min(mindiff, abs(diff));
     }
 
