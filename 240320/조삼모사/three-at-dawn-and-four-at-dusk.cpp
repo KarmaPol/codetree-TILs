@@ -42,6 +42,7 @@ int main() {
             for(auto m : cmb) {
                 if(i == m) {
                     ismorning = true;
+                    break;
                 }
             }
             if(!ismorning) {
@@ -52,14 +53,15 @@ int main() {
         cmb.push_back(cmb[0]);
         nightjobs.push_back(nightjobs[0]);
 
-        for(int i = 0; i < cmb.size()-1; i++) {
+        for(int i = 0; i < n/2; i++) {
+            if(n == 4 && i == 1) continue;
             int currentm = cmb[i];
             int nextm = cmb[i+1];
             int currentn = nightjobs[i];
             int nextn = nightjobs[i+1];
 
-            diff += map[currentm][nextm];
-            diff -= map[currentn][nextn];
+            diff += map[currentm][nextm] + map[nextm][currentm];
+            diff -= map[currentn][nextn] + map[nextn][currentn];
         }           
 
         mindiff = min(mindiff, abs(diff));
