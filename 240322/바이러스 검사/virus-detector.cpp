@@ -24,6 +24,7 @@ int main() {
         total++;
         customers[i] -= leader;
         int needs = customers[i]/worker;
+        total += needs;
 
         if(needs * worker < customers[i]) total++;
     }
