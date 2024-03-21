@@ -23,6 +23,8 @@ int main() {
     for(int i = 0; i < customers.size(); i++) {
         total++;
         customers[i] -= leader;
+        if(customers[i] < 0) customers[i] = 0;
+
         int needs = customers[i]/worker;
         total += needs;
 
