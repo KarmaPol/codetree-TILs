@@ -11,7 +11,6 @@ int answer = -1;
 vector<vector<int>> map(35, vector<int> (15));
 vector<pair<int,int>> memoryleakCandidates;
 vector<pair<int,int>> addedMemoryLeak;
-vector<vector<pair<int,int>>> addedMemoryLeaks;
 
 // n-1 * h 만큼의 예비 유실선에서 뽑는다
 void addMemoryLeaks(int idx, int size) {
@@ -67,6 +66,9 @@ void addMemoryLeaks(int idx, int size) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
 
     cin >> m >> n >> h;
 
