@@ -54,9 +54,8 @@ int main() {
     int answer = -1;
 
     for(auto memoryleaks : addedMemoryLeaks) {
-        vector<vector<int>> copymap = map;
         for(auto ml : memoryleaks) {
-            copymap[ml.first][ml.second] = 1;
+            map[ml.first][ml.second] = 1;
         }
 
         int success = 0;
@@ -66,10 +65,10 @@ int main() {
             int currentm = i;
             int currenth = 1;
             while(currenth <= h) {
-                if(copymap[currenth][currentm] == 1){
+                if(map[currenth][currentm] == 1){
                     currentm++;
                 } // 우로 이동
-                else if(copymap[currenth][currentm-1] == 1) {
+                else if(map[currenth][currentm-1] == 1) {
                     currentm--;
                 } // 좌로 이동
 
@@ -84,6 +83,11 @@ int main() {
             answer = memoryleaks.size();
             break;
         }
+
+        for(auto ml : memoryleaks) {
+            map[ml.first][ml.second] = 0;
+        }
+
     }
     cout << answer;
 
