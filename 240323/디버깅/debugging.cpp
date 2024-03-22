@@ -46,18 +46,19 @@ int main() {
         }
     }
 
+    addMemoryLeaks(0, 0);
     addMemoryLeaks(0, 1);
     addMemoryLeaks(0, 2);
 
     int answer = -1;
 
-    vector<pair<int,int>> temp;
-    addedMemoryLeaks.insert(addedMemoryLeaks.begin(), temp); // 아무것도 뽑지 않았을 때 넣어주기
     for(auto memoryleaks : addedMemoryLeaks) {
         vector<vector<int>> copymap = map;
         for(auto ml : memoryleaks) {
             copymap[ml.first][ml.second] = 1;
         }
+
+        int success = 0;
 
         // 각 시작점으로부터 사다리 게임
         for(int i = 1; i <= m; i++) { // 고객
@@ -75,11 +76,11 @@ int main() {
             }
 
             if(i == currentm) {
-                answer = memoryleaks.size();
-                break;
+                success++;
             }
         }
-        if(answer != -1) {
+        if(success == m) {
+            answer = memoryleaks.size();
             break;
         }
     }
