@@ -49,6 +49,7 @@ int main() {
     addMemoryLeaks(0, 0);
     addMemoryLeaks(0, 1);
     addMemoryLeaks(0, 2);
+    addMemoryLeaks(0, 3);
 
     int answer = -1;
 
