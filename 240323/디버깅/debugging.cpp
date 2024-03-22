@@ -31,7 +31,7 @@ void addMemoryLeaks(int idx, int size) {
 
 int main() {
 
-    cin >> n >> m >> h;
+    cin >> m >> n >> h;
 
     while(n--) {
         int temph, tempm;
@@ -51,6 +51,8 @@ int main() {
 
     int answer = -1;
 
+    vector<pair<int,int>> temp;
+    addedMemoryLeaks.insert(addedMemoryLeaks.begin(), temp); // 아무것도 뽑지 않았을 때 넣어주기
     for(auto memoryleaks : addedMemoryLeaks) {
         vector<vector<int>> copymap = map;
         for(auto ml : memoryleaks) {
