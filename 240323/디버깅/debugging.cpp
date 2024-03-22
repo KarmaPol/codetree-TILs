@@ -6,7 +6,7 @@ using namespace std;
 
 int n, h, m;
 
-vector<vector<int>> map(15, vector<int> (35));
+vector<vector<int>> map(35, vector<int> (15));
 vector<pair<int,int>> memoryleakCandidates;
 vector<pair<int,int>> addedMemoryLeak;
 vector<vector<pair<int,int>>> addedMemoryLeaks;
