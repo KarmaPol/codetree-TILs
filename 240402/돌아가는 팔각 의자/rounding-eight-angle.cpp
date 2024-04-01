@@ -46,15 +46,21 @@ int main() {
             if(prev != tables[i][6]) {
                 isTurn[i] = prevdir;
             }
+            else {
+                break;
+            }
             prev = tables[i][2];
         }
 
         prev = tables[table-1][6];
         prevdir = dir;
         for(int i = table-2; i > -1; i--) { // 왼쪽 테이블
-            prevdir *= -1;
             if(prev != tables[i][2]) {
+                prevdir *= -1;
                 isTurn[i] = prevdir;
+            }
+            else {
+                break;
             }
             prev = tables[i][6];
         }
