@@ -6,7 +6,7 @@ using namespace std;
 
 int praymap[15][15];
 int addedpray[15][15];
-priority_queue<int> virusmap[15][15];
+priority_queue<int, vector<int>, less<int>> virusmap[15][15]; // pq는 기본이 내림차순
 
 pair<int,int> sexmap[8] = {{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
 
@@ -58,6 +58,7 @@ int main() {
                         for(int dir = 0; dir < 8; dir++) {
                             int nexty = sexmap[dir].first + i;
                             int nextx = sexmap[dir].second + j;
+
                             if(nexty < 0 || nexty >= n || nextx < 0 || nexty >= n) continue;
 
                             tempvirus.push_back({1, {nexty,nextx}});
@@ -86,7 +87,7 @@ int main() {
             for(int j = 0; j < n; j++) {
                 praymap[i][j] += addedpray[i][j];
             }
-        }
+        }   
     }
 
     int answer = 0;
