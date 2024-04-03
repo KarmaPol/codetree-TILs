@@ -1,104 +1,118 @@
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <algorithm>
 
 using namespace std;
 
-int praymap[15][15];
-int addedpray[15][15];
-priority_queue<int, vector<int>, greater<int>> virusmap[15][15]; // pq는 기본이 내림차순
+int n, m, k;
 
-pair<int,int> sexmap[8] = {{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
+vector<int> virus[15][15];
+vector<int> next_virus[15][15];
 
-int main() {
+int food[15][15];
+int next_food[15][15];
 
-    int n, m, k;
+int delta[15][15];
 
-    cin >> n >> m >> k;
+pair<int,int> dirs[8] = {{1,0}, {1,1}, {0,1}, {-1,1}, {1,0}, {-1,-1}, {0,-1}, {1,-1}};
 
-    for(int i = 0 ; i < n; i++) {
+bool inRange(int y, int x) {
+    return 0 <= x && x < n && 0 <= y && y < n;
+}
+
+void breed(int y, int x) {
+    for(int i = 0; i < 8; i++) {
+        int ny = y + dirs[i].first, nx = x + dirs[i].second;
+        if(inRange(ny, nx)) {
+            next_virus[ny][nx].push_back(1);
+        }
+    }
+}
+
+void simulate() {
+    for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
-            praymap[i][j] = 5;
+            next_virus[i][j].clear();
+            next_food[i][j] = 0;
         }
     }
-
-    for(int i = 0 ; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            cin >> addedpray[i][j];
-        }
-    }
-
-    int y, x, l;
-    while(m--) {
-        cin >> y >> x >> l;
-        virusmap[y-1][x-1].push(l);
-    }
-
-    while(k--) {
-        vector<pair<int,pair<int,int>>> deadvirus; // <수명, <위치정보>>
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                vector<pair<int,pair<int,int>>> tempvirus;
-                while(!virusmap[i][j].empty()) {
-                    int currentvirus = virusmap[i][j].top();
-                    virusmap[i][j].pop();
-
-                    // 양분 섭취 가능 여부 체크
-                    if(praymap[i][j] < currentvirus) { // 사망
-                        deadvirus.push_back({currentvirus,{i,j}});
-                        continue;
-                    }
-
-                    // 양분 섭취
-                    praymap[i][j] -= currentvirus;
-                    tempvirus.push_back({currentvirus+1, {i,j}});
-
-                    // 번식
-                    if((currentvirus+1) % 5 == 0) {
-                        for(int dir = 0; dir < 8; dir++) {
-                            int nexty = sexmap[dir].first + i;
-                            int nextx = sexmap[dir].second + j;
-
-                            if(nexty < 0 || nexty >= n || nextx < 0 || nextx >= n) continue;
-
-                            tempvirus.push_back({1, {nexty,nextx}});
-                        }
-                    }
-                }
-                
-                for(auto tv : tempvirus) {
-                    virusmap[tv.second.first][tv.second.second].push(tv.first);
-                }
-            }
-        }
-
-        // 죽은 바이러스 양분화
-        for(auto db : deadvirus) {
-            int currenty = db.second.first;
-            int currentx = db.second.second;
-            int currentl = db.first;
-
-            currentl /= 2;
-            praymap[currenty][currentx] += currentl;
-        }
-
-        // 양분 추가
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                praymap[i][j] += addedpray[i][j];
-            }
-        }   
-    }
-
-    int answer = 0;
 
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
-            answer += virusmap[i][j].size();
+            sort(virus[i][j].begin(), virus[i][j].end());
+
+            for(int k = 0; k < virus[i][j].size(); k++) {
+                int age = virus[i][j][k];
+                if(food[i][j] >= age) {
+                    food[i][j] -= age;
+                    next_virus[i][j].push_back(age+1);
+                }
+
+                else {
+                    next_food[i][j] += age/2;
+                }
+            }
+
+            next_food[i][j] += food[i][j];
         }
     }
 
-    cout << answer;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            for(int k = 0; k < next_virus[i][j].size(); k++) {
+                int age = next_virus[i][j][k];
+                if(age % 5 == 0) {
+                    breed(i, j);
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+            next_food[i][j] += delta[i][j];
+    
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++) {
+            virus[i][j] = next_virus[i][j];
+            food[i][j] = next_food[i][j];
+        }
+}
+
+int main() {
+    // 여기에 코드를 작성해주세요.
+
+    cin >> n >> m >> k;
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cin >> delta[i][j];
+        }
+    }
+
+    for(int i = 0; i < m; i++) {
+        int r, c, age;
+        cin >> r >> c >> age;
+        virus[r-1][c-1].push_back(age);
+    }
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            food[i][j] = 5;
+        }
+    }
+
+    while(k--) {
+        simulate();
+    } 
+
+    int ans = 0;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            ans += virus[i][j].size();
+        }
+    }
+    cout << ans;
 
     return 0;
 }
