@@ -6,7 +6,7 @@ using namespace std;
 
 int praymap[15][15];
 int addedpray[15][15];
-priority_queue<int, vector<int>, less<int>> virusmap[15][15]; // pq는 기본이 내림차순
+priority_queue<int, vector<int>, greater<int>> virusmap[15][15]; // pq는 기본이 내림차순
 
 pair<int,int> sexmap[8] = {{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
 
@@ -39,7 +39,7 @@ int main() {
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 vector<pair<int,pair<int,int>>> tempvirus;
-                for(int v = 0; v < virusmap[i][j].size(); v++) {
+                while(!virusmap[i][j].empty()) {
                     int currentvirus = virusmap[i][j].top();
                     virusmap[i][j].pop();
 
