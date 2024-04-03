@@ -21,8 +21,10 @@ bool inRange(int y, int x) {
 }
 
 void breed(int y, int x) {
+    int dx[8] = {-1, -1, -1,  0, 0,  1, 1, 1};
+    int dy[8] = {-1,  0,  1, -1, 1, -1, 0, 1};
     for(int i = 0; i < 8; i++) {
-        int ny = y + dirs[i].first, nx = x + dirs[i].second;
+        int nx = x + dx[i], ny = y + dy[i];
         if(inRange(ny, nx)) {
             next_virus[ny][nx].push_back(1);
         }
