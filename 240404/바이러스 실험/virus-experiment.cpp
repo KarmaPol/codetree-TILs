@@ -59,7 +59,7 @@ int main() {
                             int nexty = sexmap[dir].first + i;
                             int nextx = sexmap[dir].second + j;
 
-                            if(nexty < 0 || nexty >= n || nextx < 0 || nexty >= n) continue;
+                            if(nexty < 0 || nexty >= n || nextx < 0 || nextx >= n) continue;
 
                             tempvirus.push_back({1, {nexty,nextx}});
                         }
