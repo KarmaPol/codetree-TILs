@@ -16,14 +16,14 @@ int dirx[4] = {0, -1, 0, 1};
 pair<int,int> current;
 pair<int,int> robot;
 
-bool cmp(pair<int, int> a, pair<int, int> b) {
-    int dista = abs(robot.first - a.first) + abs(robot.second - a.second);
-    int distb = abs(robot.first - b.first) + abs(robot.second - b.second);
+bool cmp(pair<int, pair<int, int>> a, pair<int, pair<int, int>> b) {
+    int dista = a.first; pair<int,int> posa = a.second;
+    int distb = b.first; pair<int,int> posb = b.second;
     if(dista == distb) {
-        if(a.first == b.first) {
-            return a.second > b.second;
+        if(posa.first == posb.first) {
+            return posa.second > posb.second;
         }
-        return a.first > b.first;
+        return posa.first > posb.first;
     }
     return dista > distb;
 }
@@ -60,7 +60,7 @@ int main() {
 
     int answer = 0;
     int level = 2, hunt = 2;
-    vector<pair<int, int>> next;
+    vector<pair<int,pair<int, int>>> next;
 
     while(true) {
         while(!q.empty()) {
@@ -68,7 +68,7 @@ int main() {
 
             if(map[current.first][current.second] != 0 && map[current.first][current.second] != 9
             && map[current.first][current.second] < level) {
-                next.push_back(current);
+                next.push_back({visited[current.first][current.second]-1 ,current});
                 continue;
             }
 
@@ -90,7 +90,7 @@ int main() {
         }
 
         sort(next.begin(), next.end(), cmp);
-        auto nextmonster = next[next.size() - 1];
+        auto nextmonster = next[next.size() - 1].second;
 
         hunt--;
         if(hunt == 0) {
