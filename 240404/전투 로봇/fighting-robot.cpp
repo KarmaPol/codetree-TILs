@@ -14,11 +14,12 @@ int diry[4] = {-1, 0, 1, 0};
 int dirx[4] = {0, -1, 0, 1};
 
 pair<int,int> current;
+pair<int,int> robot;
 
 bool cmp(pair<int, int> a, pair<int, int> b) {
     if(map[a.first][a.second] == map[b.first][b.second]) {
-        int dista = abs(current.first - a.first) + abs(current.second - a.second);
-        int distb = abs(current.first - b.first) + abs(current.second - b.second);
+        int dista = abs(robot.first - a.first) + abs(robot.second - a.second);
+        int distb = abs(robot.first - b.first) + abs(robot.second - b.second);
         if(dista == distb) {
             if(a.first == b.first) {
                 return a.second > b.second;
@@ -50,9 +51,9 @@ int main() {
         for(int j = 0; j < n; j++) {
             cin >> map[i][j];
             if(map[i][j] == 9) {
-                q.push({i,j});
+                robot = {i,j};
+                q.push(robot);
                 visited[i][j] = 1;
-                current = {i,j};
             }
             else if(map[i][j] > 0) {
                 monsters.push_back({i,j});
@@ -62,47 +63,49 @@ int main() {
 
     int answer = 0;
     int level = 2, hunt = 2;
+    vector<pair<int, int>> next;
 
-    while(monsters.size() != 0) {
-        sort(monsters.begin(), monsters.end(), cmp);
-        pair<int,int> dest = monsters[monsters.size()-1];
-        monsters.pop_back();
-        
-        if(map[dest.first][dest.second] > level) break;
-
+    while(true) {
         while(!q.empty()) {
             current = q.front(); q.pop();
+            // cout << current.first <<  ' ' << current.second << '\n';
 
-            if(current.first == dest.first && current.second == dest.second) {
-                answer += visited[current.first][current.second] - 1;
-                hunt--;
-                if(hunt == 0) {
-                    level++;
-                    hunt = level;
-                }
-                resetvisited();
-                visited[current.first][current.second] = 1;
-                while(!q.empty()) {
-                    q.pop();
-                }
-                q.push(current);
-                break;
+            if(map[current.first][current.second] != 0 && map[current.first][current.second] != 9) {
+                // cout << "도달" << '\n';
+                next.push_back(current);
             }
 
             for(int i = 0; i < 4; i++) {
                 int nexty = current.first + diry[i];
                 int nextx = current.second + dirx[i];
 
-                if(nexty >= n || nextx >= n || nextx < 0 || nexty < 0) continue;
-                if(map[nexty][nextx] != 0) {
-                    if(nexty != dest.first || nextx != dest.second) continue;
-                }
-                if(visited[nexty][nextx] > 0) continue;
+                if(nexty < 0 || nexty >= n || nextx < 0 || nextx >= n) continue;
+                if(map[nexty][nextx] > level) continue;
+                if(visited[nexty][nextx] != 0) continue;
 
                 visited[nexty][nextx] = visited[current.first][current.second] + 1;
                 q.push({nexty, nextx});
             }
         }
+
+        if(next.size() == 0) {
+            break;
+        }
+
+        sort(next.begin(), next.end(), cmp);
+        auto nextmonster = next[next.size() - 1];
+        hunt--;
+        if(hunt == 0) {
+            level++;
+            hunt = level;
+        }
+        map[nextmonster.first][nextmonster.second] = 0;
+        map[robot.first][robot.second] = 0;
+        answer += visited[nextmonster.first][nextmonster.second] - 1;
+        resetvisited();
+        visited[nextmonster.first][nextmonster.second] = 1;
+        q.push(nextmonster);
+        next.clear();
     }
 
     cout << answer;
