@@ -17,18 +17,15 @@ pair<int,int> current;
 pair<int,int> robot;
 
 bool cmp(pair<int, int> a, pair<int, int> b) {
-    if(map[a.first][a.second] == map[b.first][b.second]) {
-        int dista = abs(robot.first - a.first) + abs(robot.second - a.second);
-        int distb = abs(robot.first - b.first) + abs(robot.second - b.second);
-        if(dista == distb) {
-            if(a.first == b.first) {
-                return a.second > b.second;
-            }
-            return a.first > b.first;
+    int dista = abs(robot.first - a.first) + abs(robot.second - a.second);
+    int distb = abs(robot.first - b.first) + abs(robot.second - b.second);
+    if(dista == distb) {
+        if(a.first == b.first) {
+            return a.second > b.second;
         }
-        return dista > distb;
+        return a.first > b.first;
     }
-    return map[a.first][a.second] > map[b.first][b.second];
+    return dista > distb;
 }
 
 void resetvisited() {
@@ -68,11 +65,11 @@ int main() {
     while(true) {
         while(!q.empty()) {
             current = q.front(); q.pop();
-            // cout << current.first <<  ' ' << current.second << '\n';
 
-            if(map[current.first][current.second] != 0 && map[current.first][current.second] != 9) {
-                // cout << "도달" << '\n';
+            if(map[current.first][current.second] != 0 && map[current.first][current.second] != 9
+            && map[current.first][current.second] < level) {
                 next.push_back(current);
+                continue;
             }
 
             for(int i = 0; i < 4; i++) {
@@ -94,6 +91,7 @@ int main() {
 
         sort(next.begin(), next.end(), cmp);
         auto nextmonster = next[next.size() - 1];
+
         hunt--;
         if(hunt == 0) {
             level++;
@@ -101,7 +99,9 @@ int main() {
         }
         map[nextmonster.first][nextmonster.second] = 0;
         map[robot.first][robot.second] = 0;
+        robot = nextmonster;
         answer += visited[nextmonster.first][nextmonster.second] - 1;
+
         resetvisited();
         visited[nextmonster.first][nextmonster.second] = 1;
         q.push(nextmonster);
