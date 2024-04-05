@@ -12,6 +12,14 @@ int dirx[4] = {0, -1, 0, 1};
 int n, m, t;
 pair<int,int> upstorm, downstorm;
 
+void resetnextdusts() {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+            nextdusts[i][j] = 0;
+        }
+    }
+}
+
 void printdust() {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < m; j++) {
@@ -34,6 +42,7 @@ void countdust() {
 void spreaddust() {
     for(int curry = 0; curry < n; curry++) {
         for(int currx = 0; currx < m; currx++) {
+            if(dusts[curry][currx] == -1) continue;
             int amount = dusts[curry][currx]/5;
             for(int dir = 0; dir < 4; dir++) {
                 int nexty = diry[dir] + curry;
@@ -53,6 +62,8 @@ void spreaddust() {
             nextdusts[i][j] += dusts[i][j];
         }
     }
+    nextdusts[upstorm.first][0] = -1;
+    nextdusts[downstorm.first][0] = -1;
 
     dusts = nextdusts;
 }
@@ -117,6 +128,8 @@ int main() {
     // 돌풍 청소
         cleanupdust();
         cleandowndust();
+
+        resetnextdusts();
     }
     countdust();
 
