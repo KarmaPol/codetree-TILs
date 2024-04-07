@@ -100,8 +100,8 @@ int main() {
         }
     }
 
-    for(int i = 1; i < n; i++) {
-        for(int j = 1; j < n; j++) {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
             for(int a = 1; a < n; a++) {
                 for(int b = 1; b < n; b++) {
                     resetborder();
