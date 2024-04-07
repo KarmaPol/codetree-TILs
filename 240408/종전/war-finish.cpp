@@ -11,8 +11,6 @@ int n;
 int diry[4] = {-1, -1, 1, 1};
 int dirx[4] = {1, -1, -1, 1};
 
-vector<pair<int,int>> edges(4);
-
 int answer = 2e9;
 
 void resetborder() {
@@ -42,7 +40,7 @@ bool inRange(int y, int x) {
 }
 
 bool isAvailable(int y, int x, int a, int b) {
-    return inRange(y-a, x+b) && inRange(y-a-b, x+a-b) && inRange(y-b, x-b);
+    return inRange(y-a, x+a) && inRange(y-a-b, x+a-b) && inRange(y-b, x-b);
 }
 
 void getmaxdiff(int y, int x, int a, int b) {
