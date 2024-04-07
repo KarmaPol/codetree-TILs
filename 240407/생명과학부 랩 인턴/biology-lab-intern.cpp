@@ -54,21 +54,23 @@ void movevirus() {
             int nexty = i + currentdiry*currentspeed;
             int nextx = j + currentdirx*currentspeed;
 
-            if(nexty < 0) {
-                nexty *= -1;
-                currentvirus.first.second++;
-            }
-            if(nexty >= n) {
-                nexty = (n-1) - (nexty - (n-1));
-                currentvirus.first.second--;
-            }
-            if(nextx < 0) {
-                nextx *= -1;
-                currentvirus.first.second--;
-            }
-            if(nextx >= m) {
-                nextx = (m-1) - (nextx - (m-1));
-                currentvirus.first.second++;
+            while(nexty < 0 || nexty >= n || nextx < 0 || nextx >= m) {
+                if(nexty < 0) {
+                    nexty *= -1;
+                    currentvirus.first.second++;
+                }
+                if(nexty >= n) {
+                    nexty = (n-1) - (nexty - (n-1));
+                    currentvirus.first.second--;
+                }
+                if(nextx < 0) {
+                    nextx *= -1;
+                    currentvirus.first.second--;
+                }
+                if(nextx >= m) {
+                    nextx = (m-1) - (nextx - (m-1));
+                    currentvirus.first.second++;
+                }
             }
 
             if(mcopy[nexty][nextx].second != 0) {
