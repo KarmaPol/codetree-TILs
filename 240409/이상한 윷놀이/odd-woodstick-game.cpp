@@ -103,8 +103,7 @@ bool simualte() {
     for(int i = 0; i < k; i++) {
         pair<int,int> currentposition = findPiece(i);
         vector<pair<int,int>> currenttile = horses[currentposition.first][currentposition.second];
-        v
-        ector<pair<int,int>> nexthorses;
+        vector<pair<int,int>> nexthorses;
         bool isCurrent = false;
         int idx = -1;
         
@@ -118,17 +117,15 @@ bool simualte() {
         }
 
         // 다음 예상 위치 구하기
-        pair<int,int> nextPos = getNextPosition(nexthorses[0].second, currentposition);
+        pair<int,int> nextPos = getNextPosition(nexthorses[0].second, currentposition); 
+        bool converted = false;
 
-        if(!inRange(nextPos) || map[nextPos.first][nextPos.second] == 2) { // 바깥일 경우 보정
+        if(!inRange(nextPos)) { // 바깥일 경우 보정
             nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
             nextPos = getNextPosition(nexthorses[0].second, currentposition);
-
-            if(!inRange(nextPos) || map[nextPos.first][nextPos.second] == 2) { // 바깥일 경우 보정
-                nextPos = currentposition;                
-            }
+            converted = true;
         }
-        
+
         int nextColor = map[nextPos.first][nextPos.second];
 
         if(nextColor == 0) { // 흰색
@@ -143,7 +140,7 @@ bool simualte() {
             moveHorse(nextPos, reversenexthorses);
             deleteHorses(currentposition, idx);
         }
-        else if(nextColor == 2) { // 파란색
+        else if(!converted && nextColor == 2) { // 파란색
             nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
             nextPos = getNextPosition(nexthorses[0].second, currentposition);
 
