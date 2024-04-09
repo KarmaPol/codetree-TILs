@@ -97,6 +97,10 @@ bool isEnd() {
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
     cin >> n >> m >> k;
 
     for(int i = 0; i < n; i++) {
@@ -130,7 +134,7 @@ int main() {
     while(turn < 1000) {
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
-                for(int p = 0; p < playerBoard[i][j].size(); p++) {
+                for(int p = 0; p < playerBoard[i][j].size(); p++) { // -> currentPlayerNum과 인덱스 p가 헷갈렸음, 네이밍을 정확히 하자
                     int currentPlayerNum = playerBoard[i][j][p];
                     int currentDirection = playerDirections[currentPlayerNum];
 
