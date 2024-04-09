@@ -28,21 +28,12 @@ void getinputs() {
 }
 
 pair<int, int> getNextPosition(int dir, pair<int, int> current) {
-    pair<int, int> next = {current.first + diry[dir], current.second + dirx[dir]};\
+    pair<int, int> next = {current.first + diry[dir], current.second + dirx[dir]};
     return next;
 }
 
 bool inRange(pair<int, int> next) {
     return next.first >= 0 && next.first < n && next.second >= 0 && next.second < n;
-}
-
-int convertNotRangeDirection(int dir) {
-    if(dir == 0) dir = 1;
-    else if(dir == 1) dir = 0;
-    else if(dir == 2) dir = 3;
-    else if(dir == 3) dir = 2;
-
-    return dir;
 }
 
 pair<int, int> convertNotRangePostion(pair<int, int> next) {
@@ -72,17 +63,14 @@ void refreshHorsePositions() {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             auto currentHorses = horses[i][j];
-            // cout << i << ' ' << j << '\n';
             for(auto ch: currentHorses) {
-                // cout << ch.first << '\n';
                 horsePositions[ch.first] = {i, j};
             }
         }
     }
-    // cout << '\n';
 }
 
-bool simulate() {
+bool simualte() {
     for(int i = 0; i < k; i++) {
         pair<int,int> currentposition = horsePositions[i];
         vector<pair<int,int>> currenttile = horses[currentposition.first][currentposition.second];
@@ -99,8 +87,10 @@ bool simulate() {
             nexthorses.push_back(currenttile[j]);
         }
 
+        if(idx == -1) {
+            continue;
+        }
         // 추린 말들은 제거
-        cout << idx << '\n';
         horses[currentposition.first][currentposition.second].erase(
             horses[currentposition.first][currentposition.second].begin() + idx,
             horses[currentposition.first][currentposition.second].end()
@@ -108,18 +98,11 @@ bool simulate() {
 
         // 다음 예상 위치 구하기
         pair<int,int> nextPos = getNextPosition(nexthorses[0].second, currentposition);
-        int nextColor = -1;
+        int nextColor = map[nextPos.first][nextPos.second];
 
-        if(!inRange(nextPos) || nextColor == 2) { // 파란색이나 이동 불가 위치
-            nexthorses[0].second = convertNotRangeDirection(nexthorses[0].second);
+        if(!inRange(nextPos)) { // 바깥일 경우 보정
+            nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
             nextPos = getNextPosition(nexthorses[0].second, currentposition);
-
-            if(!inRange(nextPos) || nextColor == 2){
-                nextPos = currentposition;
-            }
-            else {
-                nextColor = map[nextPos.first][nextPos.second];
-            }
         }
 
         if(nextColor == 0) { // 흰색
@@ -131,6 +114,14 @@ bool simulate() {
                 reversenexthorses.push_back(nexthorses[h]);
             }
             moveHorse(nextPos, reversenexthorses);
+        }
+        else if(nextColor == 2) { // 파란색
+            nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
+            nextPos = getNextPosition(nexthorses[0].second, currentposition);
+
+            if(inRange(nextPos) && map[nextPos.first][nextPos.second] != 2) {
+                moveHorse(nextPos, nexthorses);
+            }
         }
 
         refreshHorsePositions();
@@ -152,9 +143,7 @@ int main() {
     int turn = 1; 
 
     while(turn < 1001) {
-        if(simulate()) {
-            break;
-        }
+        if(simualte()) break;
         turn++; 
     }
 
