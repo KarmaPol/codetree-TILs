@@ -5,7 +5,6 @@ using namespace std;
 
 int map[15][15]; // 색 표기
 vector<pair<int, int>> horses[15][15]; // <말 번호, 방향>
-pair<int, int> horsePositions[15];
 
 int diry[4] = {0, 0, -1, 1};
 int dirx[4] = {1, -1, 0, 0};
@@ -23,7 +22,6 @@ void getinputs() {
     for(int i = 0; i < k; i++) {
         cin >> x >> y >> d;
         horses[x-1][y-1].push_back({i, d-1});
-        horsePositions[i] = {x-1,y-1};
     }
 }
 
@@ -59,20 +57,51 @@ void moveHorse(pair<int, int> nextPos, vector<pair<int, int>> nexthorses) {
     }
 }
 
-void refreshHorsePositions() {
+pair<int,int> findPiece(int h) {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
-            auto currentHorses = horses[i][j];
-            for(auto ch: currentHorses) {
-                horsePositions[ch.first] = {i, j};
+            for(auto horse : horses[i][j]) {
+                if(horse.first == h) {
+                    return {i, j};
+                }
             }
         }
     }
 }
 
+void printHorses() {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cout << i << ' ' << j << '\n';
+            for(auto horse : horses[i][j]) {
+
+                cout << horse.first << '\n';
+            }
+        }
+    }
+    cout << '\n';
+}
+
+bool isEnd() {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            if(horses[i][j].size() >= 4) return true;
+        }
+    }
+    return false;
+}
+
+void deleteHorses(pair<int,int> currentposition, int idx) {
+    // 추린 말들은 제거
+    horses[currentposition.first][currentposition.second].erase(
+        horses[currentposition.first][currentposition.second].begin() + idx,
+        horses[currentposition.first][currentposition.second].end()
+    );
+}
+
 bool simualte() {
     for(int i = 0; i < k; i++) {
-        pair<int,int> currentposition = horsePositions[i];
+        pair<int,int> currentposition = findPiece(i);
         vector<pair<int,int>> currenttile = horses[currentposition.first][currentposition.second];
         vector<pair<int,int>> nexthorses;
         bool isCurrent = false;
@@ -87,15 +116,6 @@ bool simualte() {
             nexthorses.push_back(currenttile[j]);
         }
 
-        if(idx == -1) {
-            continue;
-        }
-        // 추린 말들은 제거
-        horses[currentposition.first][currentposition.second].erase(
-            horses[currentposition.first][currentposition.second].begin() + idx,
-            horses[currentposition.first][currentposition.second].end()
-        );
-
         // 다음 예상 위치 구하기
         pair<int,int> nextPos = getNextPosition(nexthorses[0].second, currentposition);
         int nextColor = map[nextPos.first][nextPos.second];
@@ -107,6 +127,7 @@ bool simualte() {
 
         if(nextColor == 0) { // 흰색
             moveHorse(nextPos, nexthorses);
+            deleteHorses(currentposition, idx);
         } 
         else if(nextColor == 1) { // 빨간색
             vector<pair<int,int>> reversenexthorses;
@@ -114,6 +135,7 @@ bool simualte() {
                 reversenexthorses.push_back(nexthorses[h]);
             }
             moveHorse(nextPos, reversenexthorses);
+            deleteHorses(currentposition, idx);
         }
         else if(nextColor == 2) { // 파란색
             nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
@@ -121,12 +143,12 @@ bool simualte() {
 
             if(inRange(nextPos) && map[nextPos.first][nextPos.second] != 2) {
                 moveHorse(nextPos, nexthorses);
+                deleteHorses(currentposition, idx);
             }
         }
+        // printHorses();
 
-        refreshHorsePositions();
-
-        if(horses[nextPos.first][nextPos.second].size() >= 4) {
+        if(isEnd()) {
             return true;
         }
     }
