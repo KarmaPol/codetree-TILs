@@ -120,9 +120,13 @@ bool simualte() {
         pair<int,int> nextPos = getNextPosition(nexthorses[0].second, currentposition);
         int nextColor = map[nextPos.first][nextPos.second];
 
-        if(!inRange(nextPos)) { // 바깥일 경우 보정
+        if(!inRange(nextPos) || map[nextPos.first][nextPos.second] == 2) { // 바깥일 경우 보정
             nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
             nextPos = getNextPosition(nexthorses[0].second, currentposition);
+
+            if(!inRange(nextPos) || map[nextPos.first][nextPos.second] == 2) { // 바깥일 경우 보정
+                nextPos = currentposition;                
+            }
         }
 
         if(nextColor == 0) { // 흰색
