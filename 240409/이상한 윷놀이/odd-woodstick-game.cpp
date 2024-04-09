@@ -103,7 +103,8 @@ bool simualte() {
     for(int i = 0; i < k; i++) {
         pair<int,int> currentposition = findPiece(i);
         vector<pair<int,int>> currenttile = horses[currentposition.first][currentposition.second];
-        vector<pair<int,int>> nexthorses;
+        v
+        ector<pair<int,int>> nexthorses;
         bool isCurrent = false;
         int idx = -1;
         
@@ -118,7 +119,6 @@ bool simualte() {
 
         // 다음 예상 위치 구하기
         pair<int,int> nextPos = getNextPosition(nexthorses[0].second, currentposition);
-        int nextColor = map[nextPos.first][nextPos.second];
 
         if(!inRange(nextPos) || map[nextPos.first][nextPos.second] == 2) { // 바깥일 경우 보정
             nexthorses[0].second = (nexthorses[0].second % 2 == 0) ? (nexthorses[0].second + 1) : (nexthorses[0].second - 1);
@@ -128,6 +128,8 @@ bool simualte() {
                 nextPos = currentposition;                
             }
         }
+        
+        int nextColor = map[nextPos.first][nextPos.second];
 
         if(nextColor == 0) { // 흰색
             moveHorse(nextPos, nexthorses);
