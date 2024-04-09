@@ -147,6 +147,7 @@ int main() {
         turn++; 
     }
 
+    if(turn == 1001) turn = -1;
     cout << turn;
     
     return 0;
