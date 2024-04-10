@@ -98,6 +98,11 @@ int main() {
     int answer = -1;
 
     while(!q.empty()) {
+        if(isEnd()) {
+            answer = c;
+            break;
+        }
+
         vector<pair<int, int>> candidates;
         int useBattery = -1;
         // 손님 고르기
@@ -123,7 +128,6 @@ int main() {
         }
         // 손님 없으면 종료
         if(candidates.size() == 0) {
-            if(isEnd()) answer = c;
             break;
         }
 
