@@ -1,179 +1,157 @@
 #include <iostream>
-#include <vector>
+#include <tuple>
 #include <queue>
-#include <algorithm>
+#include <vector>
+
+#define MAX_N 20
+#define MAX_M 400
+#define DIR_NUM 4
+#define NOT_EXISTS make_pair(-1, -1)
 
 using namespace std;
 
-int map[25][25];
-int customerMap[25][25];
-int customerDestMap[25][25];
-int visited[25][25];
+int n, m;
 
-int dy[4] = {-1, 1, 0, 0};
-int dx[4] = {0, 0, -1, 1};
+int grid[MAX_N + 1][MAX_N + 1];
 
-int n, m, c;
+vector<tuple<int,int,int,int> > passengers;
+bool moved_passenger[MAX_M];
 
-bool isAvailable(int nexty, int nextx) {
-    return nexty >= 0 && nexty < n && nextx >= 0 && nextx < n;
+pair<int, int> car_pos;
+int remaining_battery;
+
+queue<pair<int,int> > bfs_q;
+int step[MAX_N + 1][MAX_N + 1];
+bool visited[MAX_N + 1][MAX_N + 1];
+
+bool InRange(int x, int y) {
+    return 1 <= x && x <= n && 1 <= y && y <= n;
 }
 
-bool isCustomer(int y, int x) {
-    return customerMap[y][x] > 0;
+bool CanGo(int x, int y) {
+    return InRange(x, y) && !visited[x][y] && !grid[x][y];
 }
 
-bool cmp(pair<int, int> a, pair<int, int> b) {
-    if(visited[a.first][a.second] == visited[b.first][b.second]) {
-        if(a.first == b.first) {
-            return a.second < b.second;
+void InitializeVisited() {
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++) {
+            visited[i][j] = false;
         }
-        return a.first < b.first;
     }
-    return visited[a.first][a.second] < visited[b.first][b.second];
 }
 
-pair<int,int> findCurrentCustomerDest(int p) {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            if(customerDestMap[i][j] == -p) {
-                return {i, j};
+void BFS(pair<int,int> start_pos) {
+    InitializeVisited();
+
+    int start_x, start_y;
+    tie(start_x, start_y) = start_pos;
+
+    visited[start_x][start_y] = true;
+    step[start_x][start_y] = 0;
+    bfs_q.push({start_x, start_y});
+
+    int dx[DIR_NUM] = {0, 1, 0, -1};
+    int dy[DIR_NUM] = {1, 0, -1, 0};
+
+    while(!bfs_q.empty()) {
+        pair<int, int> curr_pos = bfs_q.front();
+        int curr_x, curr_y;
+        tie(curr_x, curr_y) = curr_pos;
+        bfs_q.pop();
+
+        for(int i = 0; i < DIR_NUM; i++) {
+            int new_x = curr_x + dx[i];
+            int new_y = curr_y + dy[i];
+
+            if(CanGo(new_x, new_y)) {
+                bfs_q.push({new_x, new_y});
+                step[new_x][new_y] = step[curr_x][curr_y] + 1;
+                visited[new_x][new_y] = true;
             }
         }
     }
-    return {0, 0};
 }
 
-void resetVisited() {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            visited[i][j] = 0;
-        }
-    }
+bool NeedUpdate(pair<int, int> best_pos, pair<int, int> new_pos) {
+    if(best_pos == NOT_EXISTS) return true;
+
+    return make_tuple(step[best_pos.first][best_pos.second], best_pos.first, best_pos.second) >
+        make_tuple(step[new_pos.first][new_pos.second], new_pos.first, new_pos.second);
 }
 
-void printVisited() {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            cout << visited[i][j] << ' ';
-        }
-        cout << '\n';
-    }
-    cout << '\n';
-}
+bool MovePassenger() {
+    BFS(car_pos);
 
-bool isEnd() {
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            if(customerMap[i][j] != 0) return false;
+    pair<int, int> best_pos = NOT_EXISTS;
+    int best_index = -1;
+    
+    for(int i = 0; i < passengers.size(); i++) {
+        int start_x, start_y, end_x, end_y;
+        tie(start_x, start_y, end_x, end_y) = passengers[i];
+
+        if(moved_passenger[i] ||
+            !visited[start_x][start_y] ||
+            step[start_x][start_y] > remaining_battery) continue;
+
+        if(NeedUpdate(best_pos, {start_x, start_y})) {
+            best_pos = {start_x, start_y};
+            best_index = i;
         }
     }
+
+    if(best_pos == NOT_EXISTS) return false;
+
+    int start_x, start_y, end_x, end_y;
+    tie(start_x, start_y, end_x, end_y) = passengers[best_index];
+    
+    car_pos = make_pair(start_x, start_y);
+    remaining_battery -= step[start_x][start_y];
+
+    BFS(make_pair(start_x, start_y));
+
+    if(!visited[end_x][end_y] ||
+    step[end_x][end_y] > remaining_battery) return false;
+
+    car_pos = make_pair(end_x, end_y);
+    remaining_battery -= step[end_x][end_y];
+
+    moved_passenger[best_index] = true;
+    remaining_battery += step[end_x][end_y] * 2;
+
     return true;
 }
 
 int main() {
-    cin >> n >> m >> c;
-
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            cin >> map[i][j];
-        }
-    }
-
-    int y, x;
-    cin >> y >> x;
-    y--; x--;
-
+    cin >> n >> m >> remaining_battery;
+    
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= n; j++) 
+            cin >> grid[i][j];
+    
+    int car_x, car_y;
+    cin >> car_x >> car_y;
+    car_pos = make_pair(car_x, car_y);
+    
     for(int i = 1; i <= m; i++) {
-        int xs, ys, xe, ye;
-        cin >> ys >> xs >> ye >> xe;
-        customerMap[ys-1][xs-1] = i;
-        customerDestMap[ye-1][xe-1] = -i;
+        int start_x, start_y, end_x, end_y;
+        cin >> start_x >> start_y >> end_x >> end_y;
+        passengers.push_back(make_tuple(
+            start_x, start_y, end_x, end_y
+        ));
     }
-
-    queue<pair<int,int>> q;
-    q.push({y, x});
-    visited[y][x] = 1;
-
-    int answer = -1;
-
-    while(!q.empty()) {
-        if(isEnd()) {
-            answer = c;
-            break;
+    
+    // m명의 승객을 전부 옮길 수 있는지를 판단합니다.
+    for(int i = 1; i <= m; i++) {
+        bool is_moved = MovePassenger();
+        
+        // 전부 옮기는 것이 불가능한 경우라면 -1을 출력하고
+        // 프로그램을 종료합니다.
+        if(!is_moved) {
+            cout << -1;
+            return 0;
         }
-
-        vector<pair<int, int>> candidates;
-        int useBattery = -1;
-        // 손님 고르기
-        while(!q.empty()) {
-            pair<int,int> currentPosition = q.front();
-            q.pop();
-
-            if(isCustomer(currentPosition.first, currentPosition.second)) {
-                candidates.push_back(currentPosition);
-                continue;
-            }
-
-            for(int i = 0; i < 4; i++) {
-                int nexty = currentPosition.first + dy[i];
-                int nextx = currentPosition.second + dx[i];
-                if(!isAvailable(nexty, nextx)) continue;
-                if(visited[nexty][nextx] != 0) continue;
-                if(map[nexty][nextx] == 1) continue;
-                
-                visited[nexty][nextx] = visited[currentPosition.first][currentPosition.second] + 1;
-                q.push({nexty, nextx});
-            }
-        }
-        // 손님 없으면 종료
-        if(candidates.size() == 0) {
-            break;
-        }
-
-        // 손님 정렬 & 손님, 목적지 설정
-        sort(candidates.begin(), candidates.end(), cmp);
-        pair<int, int> currentCustomerPosition = candidates[0];
-        c -= visited[currentCustomerPosition.first][currentCustomerPosition.second] - 1;
-        int currentCustomerNum = customerMap[currentCustomerPosition.first][currentCustomerPosition.second];
-        pair<int, int> currentCustomerDest = findCurrentCustomerDest(currentCustomerNum);
-        while(!q.empty()) q.pop();
-        q.push(currentCustomerPosition); 
-        resetVisited(); visited[currentCustomerPosition.first][currentCustomerPosition.second] = 1;
-
-        // 목적지로 출발
-        while(!q.empty()) {
-            pair<int,int> currentPosition = q.front();
-            q.pop();
-
-            if(currentPosition.first == currentCustomerDest.first && currentPosition.second == currentCustomerDest.second) {
-                useBattery += visited[currentPosition.first][currentPosition.second] - 1;
-                while(!q.empty()) q.pop();
-                break;
-            }
-
-            for(int i = 0; i < 4; i++) {
-                int nexty = currentPosition.first + dy[i];
-                int nextx = currentPosition.second + dx[i];
-                if(!isAvailable(nexty, nextx)) continue;
-                if(visited[nexty][nextx] != 0) continue;
-                if(map[nexty][nextx] == 1) continue;
-                
-                visited[nexty][nextx] = visited[currentPosition.first][currentPosition.second] + 1;
-                q.push({nexty, nextx});
-            }
-        }
-        // 배터리 소진되지 않고 도착했는지 검사
-        if(useBattery == -1 || useBattery > c) {
-            break;
-        }
-        c += useBattery + 1;
-        q.push(currentCustomerDest);
-        resetVisited(); visited[currentCustomerDest.first][currentCustomerDest.second] = 1;
-        customerMap[currentCustomerPosition.first][currentCustomerPosition.second] = 0;
     }
-
-    cout << answer;
-
-    return 0;
+    
+    // 남아있는 배터리의 양을 출력합니다.
+    cout << remaining_battery;
 }
