@@ -161,7 +161,7 @@ int main() {
         }
         // 배터리 소진되지 않고 도착했는지 검사
         if(useBattery == -1 || useBattery > c) {
-            continue;
+            break;
         }
         c += useBattery + 1;
         q.push(currentCustomerDest);
