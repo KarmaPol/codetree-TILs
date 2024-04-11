@@ -115,6 +115,7 @@ void killTrees() {
 
     int kills, curry, currx;
     tie(kills, curry, currx) = best_pos;
+    drugMap[curry][currx] = c+1;
     for(int d = 0; d < 4; d++) {
         answer += treeMap[curry][currx];
         treeMap[curry][currx] = 0;
