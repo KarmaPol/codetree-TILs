@@ -12,8 +12,8 @@ int n, m;
 int dy[4] = {0, 1, 0, -1};
 int dx[4] = {1, 0, -1, 0};
 
-vector<int> monsters(3000);
-vector<int> nextMonsters(3000);
+vector<int> monsters(10000);
+vector<int> nextMonsters(10000);
 
 void getSeqMap() {
     int diry[4] = {0, 1, 0, -1};
@@ -142,6 +142,8 @@ int main() {
                 nextMonsters[idx] = i - comboStart; idx++;
                 nextMonsters[idx] = combo; idx++;
             }
+
+            if(idx >= n*n) break;
             
             if(monsters[i] == 0) break;
             combo = monsters[i]; comboStart = i;
