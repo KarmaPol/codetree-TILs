@@ -85,6 +85,12 @@ void killTrees() {
 
     int killMap[25][25];
 
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            killMap[i][j] = 0;
+        }
+    }
+
     // Best 제초제 위치 찾기
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -107,18 +113,22 @@ void killTrees() {
     tuple<int, int, int> best_pos = make_tuple(1, -1, -1);
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
+            if(killMap[i][j] == 0) continue;
             tuple<int, int, int> pos = make_tuple(-killMap[i][j], i, j);
             best_pos = min(best_pos, pos);
         }
     }
-    if(best_pos == make_tuple(1, -1, -1)) return; // 제초제 뿌릴 곳이 없으면 그대로 종료
+    if(best_pos == make_tuple(1, -1, -1)) {
+        return; // 제초제 뿌릴 곳이 없으면 그대로 종료
+    }
 
     int kills, curry, currx;
     tie(kills, curry, currx) = best_pos;
     drugMap[curry][currx] = c+1;
+    answer += treeMap[curry][currx];
+    treeMap[curry][currx] = 0;
+
     for(int d = 0; d < 4; d++) {
-        answer += treeMap[curry][currx];
-        treeMap[curry][currx] = 0;
         for(int range = 1; range <= k; range++) {
             int nexty = curry + kdy[d]*range;
             int nextx = currx + kdx[d]*range;
@@ -142,6 +152,16 @@ void reduceDrugs() {
             drugMap[i][j]--;
         }
     }
+}
+
+void printDrugs() {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cout << drugMap[i][j] << ' ';
+        }
+        cout << '\n';
+    }
+    cout << '\n';
 }
 
 void printTrees() {
