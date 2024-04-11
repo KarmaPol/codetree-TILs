@@ -72,6 +72,10 @@ int main() {
     while(m--) {
         int d, p;
         cin >> d >> p;
+
+        for(int i = 0; i < nextMonsters.size(); i++) {
+            nextMonsters[i] = 0;
+        }
         
         for(int i = 1; i <= p; i++) {
             int attackY = playerY + i*dy[d];
