@@ -69,8 +69,8 @@ int main() {
     getSeqMap(); getMonsters();
     int playerY = n/2, playerX = n/2;
 
+    int d, p;
     while(m--) {
-        int d, p;
         cin >> d >> p;
 
         for(int i = 0; i < nextMonsters.size(); i++) {
