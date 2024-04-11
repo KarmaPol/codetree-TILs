@@ -12,8 +12,8 @@ int n, m;
 int dy[4] = {0, 1, 0, -1};
 int dx[4] = {1, 0, -1, 0};
 
-vector<int> monsters(1000);
-vector<int> nextMonsters(1000);
+vector<int> monsters(3000);
+vector<int> nextMonsters(3000);
 
 void getSeqMap() {
     int diry[4] = {0, 1, 0, -1};
