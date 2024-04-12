@@ -142,7 +142,7 @@ void throwBall(int round) {
     pair<int,int> nextLine[4] = {{0,1}, {-1, 0}, {0, -1}, {1, 0}};
     pair<int, int> startPoints[4] = {{0, 0}, {n-1, 0}, {n-1, n-1}, {0, n-1}};
 
-    int r = round/n;
+    int r = (round/n)%4;
     int c = round%n;
 
     int currentY = startPoints[r].first + nextRound[r].first*c;
