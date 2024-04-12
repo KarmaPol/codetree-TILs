@@ -46,7 +46,7 @@ void dfs(int team, int currY, int currX) {
         if(!inRange(nextY, nextX)) continue;
         if(visited[nextY][nextX]) continue;
         if(map[nextY][nextX] == 0) continue;
-        if(map[currY][currX] == 1 && map[nextY][nextX] != 4) continue;
+        if(map[currY][currX] == 1 && map[nextY][nextX] != 4 && map[nextY][nextX] != 3) continue;
 
         visited[nextY][nextX] = 1;
         tempRoute.push_back({nextY, nextX});
@@ -73,7 +73,8 @@ void getRoutes() {
 }
 
 void printRoutes() {
-    for(int i = 0 ;i < n; i++) {
+    cout << teamNum << '\n';
+    for(int i = 0 ; i < teamNum; i++) {
         for(int j = 0; j < routes[i].size(); j++) {
             cout << routes[i][j].first << ":" << routes[i][j].second << ' ';
         }
