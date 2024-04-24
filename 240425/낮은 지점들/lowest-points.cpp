@@ -20,7 +20,7 @@ int main() {
         }
         else map[x] = y;
     }
-    int sum = 0;
+    long long sum = 0;
     for(auto pos : map) {
         sum += pos.second;
     }
