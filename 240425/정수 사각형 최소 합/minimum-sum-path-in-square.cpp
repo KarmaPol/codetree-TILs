@@ -21,10 +21,12 @@ int main() {
         }
     }
 
-    for(int i = 0; i <= n; i++) {
-        dp[i][n] = 2e9;
-        dp[0][i] = 2e9;
+    for(int i = 1; i <= n; i++) {
+        dp[i][n+1] = 1e9;
+        dp[0][i] = 1e9;
     }
+    dp[0][n] = 0;
+    dp[1][n+1] = 0;
 
     for(int i = 1; i <= n; i++) {
         for(int j = n; j > 0; j--) {
@@ -40,6 +42,13 @@ int main() {
             dp[currenty][currentx] = minsum;
         }
     }
+
+    // for(int i = 1; i <= n; i++) {
+    //     for(int j = 1; j <= n; j++) {
+    //         cout << dp[i][j] << ' ';
+    //     }
+    //     cout << '\n';
+    // }
 
     cout << dp[n][1];
     
