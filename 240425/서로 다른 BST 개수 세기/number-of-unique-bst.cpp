@@ -3,24 +3,22 @@
 
 using namespace std;
 
-vector<int> dp[25];
+int dp[25];
 
 int main() {
 
     int n;
     cin >> n;
 
-    dp[1].push_back(1);
+    dp[1] = 1;
 
     for(int i = 2; i <= n; i++) {
-        for(int j = 0; j < dp[i-1].size(); j++) {
-            for(int k = 1; k <= dp[i-1][j] + 1; k++) {
-                dp[i].push_back(k);
-            }
+        for(int j = 1; j < i; j++) {
+            dp[i] += dp[j] + 1;
         }
     }
 
-    cout << dp[n].size();
+    cout << dp[n];
 
     return 0;
 }
