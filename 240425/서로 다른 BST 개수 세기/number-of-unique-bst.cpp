@@ -10,12 +10,11 @@ int main() {
     int n;
     cin >> n;
 
-    dp[2].push_back(1);
-    dp[2].push_back(2);
+    dp[1].push_back(1);
 
-    for(int i = 3; i < n; i++) {
-        for(int j = 0; j < dp[i].size(); i++) {
-            for(int k = 1; k <= dp[i][j] + 1; k++) {
+    for(int i = 2; i <= n; i++) {
+        for(int j = 0; j < dp[i-1].size(); j++) {
+            for(int k = 1; k <= dp[i-1][j] + 1; k++) {
                 dp[i].push_back(k);
             }
         }
