@@ -39,8 +39,7 @@ int main() {
             dp[currenty][currentx] = prevmin;
         }
     } 
-
-    cout << dp[n-1][n-1];
+    cout << dp[n][n];
 
     return 0;
 }
