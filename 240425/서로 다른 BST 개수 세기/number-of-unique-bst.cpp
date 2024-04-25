@@ -1,27 +1,29 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
-int memo[25];
+int memo[21];
 
-int topDown(int n) {
-    if(memo[n] != 0) return memo[n];
+int NumOfBST(int n) {
+    int ans = 0;
 
-    int prev = (n-3) * topDown(n-1);
-    if(prev < 0) prev = 0;
-    memo[n] = prev + (n*(n+1)/2 -1);
-    return memo[n];
+    for(int i = 0; i < n; i++) {
+        ans += memo[i] * memo[n-1-i];
+    }
+    return ans;
 }
 
 int main() {
-
     int n;
     cin >> n;
 
+    memo[0] = 1;
     memo[1] = 1;
 
-    cout << topDown(n);
+    for(int i = 2; i <= n; i++) {
+        memo[i] = NumOfBST(i);
+    }
+    cout << memo[n];
 
     return 0;
 }
