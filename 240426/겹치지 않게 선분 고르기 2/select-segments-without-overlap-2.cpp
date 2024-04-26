@@ -16,11 +16,11 @@ int main() {
         int start, end;
         cin >> start >> end;
         lines.push_back({start, end});
+        dp[i] = 1;
     }
     
     sort(lines.begin(), lines.end());
 
-    dp[0] = 1;
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < i; j++) {
             if(lines[i].first <= lines[j].second) continue;
