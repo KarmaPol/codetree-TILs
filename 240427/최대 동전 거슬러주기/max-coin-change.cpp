@@ -22,6 +22,7 @@ int main() {
         }
     }
 
+    if(dp[m] == 0) dp[m] = -1;    
     cout << dp[m];
 
     return 0;
