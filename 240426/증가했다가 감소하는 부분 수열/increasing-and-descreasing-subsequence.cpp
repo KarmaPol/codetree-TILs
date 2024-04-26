@@ -13,7 +13,7 @@ int main() {
     for(int i = 0; i < n; i++) {
         cin >> map[i];
         dpNotDecrease[i] = 1;
-        dpDecrease[i] = -1;
+        dpDecrease[i] = 1;
     }
 
     for(int i = 0; i < n; i++) {
@@ -31,8 +31,9 @@ int main() {
     }
 
     int ans = 0;
-    for(int i = 0; i < n; i++)
-        ans = max(ans, dpDecrease[i]);
+    for(int i = 0; i < n; i++) {
+        ans = max(max(ans, dpDecrease[i]), dpNotDecrease[i]);
+    }
 
     cout << ans;
 
