@@ -39,10 +39,22 @@ int main() {
                 if(tempDiff < nextDiff) {
                     dp[nexty][nextx] = make_tuple(tempMax,tempMin, tempDiff);
                 }
+                else if(tempDiff == nextDiff) {
+                    if(nextMax > tempMax || nextMin < tempMin) {
+                        dp[nexty][nextx] = make_tuple(tempMax,tempMin, tempDiff);
+                    }
+                }
             }
         }
     }
-    
+
+    // for(int i = 0; i < n; i++) {
+    //     for(int j = 0; j < n; j++) {
+    //         cout << get<0>(dp[i][j]) << ' ' << get<1>(dp[i][j]) << ' ';
+    //     }
+    //     cout << '\n';
+    // }
+
     cout << get<2>(dp[n-1][n-1]);
 
     return 0;
