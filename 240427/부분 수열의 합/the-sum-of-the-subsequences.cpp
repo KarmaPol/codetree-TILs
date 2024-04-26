@@ -5,13 +5,16 @@ using namespace std;
 int n, m;
 
 int arr[105];
-int dp[105];
+int dp[10005];
 
 int main() {
     cin >> n >> m;
 
     for(int i = 0; i < n; i++) {
         cin >> arr[i];
+    }
+
+    for(int i = 0; i <= m; i++) {
         dp[i] = -1;
     }
 
