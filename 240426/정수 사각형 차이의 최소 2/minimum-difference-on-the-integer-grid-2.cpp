@@ -1,54 +1,74 @@
 #include <iostream>
-#include <tuple>
+
+#define INT_MAX 2e9
 
 using namespace std;
 
 int n;
-int map[105][105];
-tuple<int,int,int> dp[105][105];
+int num[105][105];
+int dp[105][105][105];
 
-int dy[2] = {0, 1};
-int dx[2] = {1, 0};
-
-int main() {
-    cin >> n;
+void init() {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
-            cin >> map[i][j];
-            dp[i][j] = make_tuple(map[i][j], map[i][j], 2e9);
-        }
-    }
-
-    dp[0][0] = make_tuple(map[0][0], map[0][0], 0);
-
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            int currenty = i, currentx = j;
-            int currentMax, currentMin, currentDiff;
-            tie(currentMax, currentMin, currentDiff) = dp[currenty][currentx];
-
-            for(int d = 0; d < 2; d++) {
-                int nexty = currenty + dy[d];
-                int nextx = currentx + dx[d];
-                int nextMax, nextMin, nextDiff;
-                tie(nextMax, nextMin, nextDiff) = dp[nexty][nextx];
-
-                int tempMax = max(map[nexty][nextx], currentMax);
-                int tempMin = min(map[nexty][nextx], currentMin);
-                int tempDiff = tempMax - tempMin;
-                if(tempDiff < nextDiff) {
-                    dp[nexty][nextx] = make_tuple(tempMax,tempMin, tempDiff);
-                }
-                else if(tempDiff == nextDiff) {
-                    if(nextMax > tempMax) {
-                        dp[nexty][nextx] = make_tuple(tempMax,tempMin, tempDiff);
-                    }
-                }
+            for(int k = 0; k < 105; k++) {
+                dp[i][j][k] = INT_MAX;
             }
         }
     }
-    
-    cout << get<2>(dp[n-1][n-1]);
 
+    dp[0][0][num[0][0]] = num[0][0];
+
+    for(int i = 1; i < n; i++) {
+        for(int k = 1; k < 105; k++) {
+            dp[i][0][min(k, num[i][0])] = min(
+                dp[i][0][min(k, num[i][0])],
+                max(dp[i-1][0][k], num[i][0])
+            );
+        }
+    }
+
+    for(int j = 1; j < n; j++) {
+        for(int k = 1; k < 105; k++) {
+            dp[0][j][min(k, num[0][j])] = min(
+                dp[0][j][min(k, num[0][j])],
+                max(dp[0][j-1][k], num[0][j])
+            );
+        }
+    }
+}
+
+void solve() {
+    init();
+
+    for(int i = 1; i < n; i++) {
+        for(int j = 1; j < n; j++) {
+            for(int k = 1; k < 105; k++) {
+                dp[i][j][min(k, num[i][j])] = min(
+                    dp[i][j][min(k, num[i][j])],
+                    max(min(dp[i-1][j][k], dp[i][j-1][k]), num[i][j])
+                );
+            }
+        }
+    }
+}
+
+int main() {
+
+    cin >> n;
+
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+            cin >> num[i][j];
+    
+    solve();
+
+    int ans = INT_MAX;
+    for(int k = 1; k < 105; k++) {
+        if(dp[n-1][n-1][k] != INT_MAX)
+            ans = min(ans, dp[n-1][n-1][k] - k);
+    }
+
+    cout << ans;
     return 0;
 }
