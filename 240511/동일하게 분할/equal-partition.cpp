@@ -28,19 +28,18 @@ int main() {
                 }
             }
             
-            // if(dp[i-1][j]) dp[i][j] = true;
+            if(dp[i-1][j]) dp[i][j] = true;
         }
     }
 
     string ans = "No";
-    for(int i = 1; i <= tot; i++) {
-        // cout << dp[n][i] << '\n';
-        if(dp[n][i] == true && dp[n][i*2] == true) {
-            ans = "Yes";
 
-            // cout << i << '\n';
-            break;
-        }
+    // for(int i = 0; i <= tot; i++) {
+    //     cout << dp[n][i] << '\n';
+    // }
+
+    if(tot % 2 == 0 && dp[n][tot/2] == true) {
+        ans = "Yes";
     }
 
     cout << ans;
