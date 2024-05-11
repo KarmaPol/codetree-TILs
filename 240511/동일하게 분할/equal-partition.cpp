@@ -28,7 +28,7 @@ int main() {
                 }
             }
             
-            if(dp[i-1][j]) dp[i][j] = true;
+            // if(dp[i-1][j]) dp[i][j] = true;
         }
     }
 
@@ -37,6 +37,8 @@ int main() {
         // cout << dp[n][i] << '\n';
         if(dp[n][i] == true && dp[n][i*2] == true) {
             ans = "Yes";
+
+            // cout << i << '\n';
             break;
         }
     }
