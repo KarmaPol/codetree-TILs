@@ -13,7 +13,11 @@ int main() {
         cin >> stares[i];
     }
 
-    for(int i = 1; i <= n; i++) {
+    dp[1][1] = stares[1];
+    dp[2][0] = stares[2];
+    dp[2][2] = stares[1] + stares[2];
+
+    for(int i = 3; i <= n; i++) {
         for(int j = 0; j < 4; j++) {
             if(j < 3 && dp[i-1][j] + stares[i] > dp[i][j+1]) {
                 dp[i][j+1] = dp[i-1][j] + stares[i];
