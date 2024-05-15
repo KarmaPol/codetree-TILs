@@ -15,12 +15,12 @@ int main() {
 
     for(int i = 1; i <= n; i++) {
         for(int j = 0; j < 4; j++) {
-            if(j < 2 && dp[i-1][j] + stares[i] > dp[i][j+1]) {
+            if(j < 3 && dp[i-1][j] + stares[i] > dp[i][j+1]) {
                 dp[i][j+1] = dp[i-1][j] + stares[i];
             }
             
-            if(i >= 2 && dp[i-2][j] + stares[i] > dp[i][0]) {
-                dp[i][0] = dp[i-2][j] + stares[i];
+            if(i >= 2 && dp[i-2][j] + stares[i] > dp[i][j]) {
+                dp[i][j] = dp[i-2][j] + stares[i];
             }
         }
     }
