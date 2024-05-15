@@ -19,7 +19,7 @@ int main() {
                 dp[i][j+1] = dp[i-1][j] + stares[i];
             }
             
-            if(i >= 2 && dp[i-2][j] + stares[i] > dp[i][j]) {
+            if(i >= 2 && dp[i-2][j] != 0 && dp[i-2][j] + stares[i] > dp[i][j]) {
                 dp[i][j] = dp[i-2][j] + stares[i];
             }
         }
