@@ -20,16 +20,21 @@ int main() {
 
     dp[0][0] = 0;
 
-    for(int i = 0; i <= n; i++) {
-        for(int j = 0; j < k; j++) {
-            // if(dp[i][j] == -2e9) continue; 
-            if(numbers[i+1] < 0) {
-                dp[i+1][j+1] = max(dp[i][j+1], dp[i][j] + numbers[i+1]);
-                dp[i+1][1] = max(dp[i+1][1], numbers[i+1]);
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j <= k; j++) {
+            if(numbers[i+1] < 0 && j < k) {
+                if(dp[i][j] != -2e9) 
+                    dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j] + numbers[i+1]);
             } 
+            else if(numbers[i+1] >= 0) {
+                if(dp[i][j] != -2e9)
+                    dp[i+1][j] = max(dp[i+1][j], dp[i][j] + numbers[i+1]);
+            }
+
+            if(numbers[i+1] < 0)
+                dp[i+1][1] = max(dp[i+1][1], numbers[i+1]);
             else {
-                dp[i+1][j] = max(dp[i][j], dp[i][j] + numbers[i+1]);
-                dp[i+1][0] = max(dp[i][j], numbers[i+1]);
+                dp[i+1][0] = max(dp[i+1][0], numbers[i+1]);
             }
         }
     }
