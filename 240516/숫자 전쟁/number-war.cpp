@@ -17,6 +17,8 @@ int main() {
             dp[i][j] = -1;
         }
     }
+
+    dp[0][0] = 0;
     
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -27,7 +29,7 @@ int main() {
             }
 
             if(a[i+1] > b[i+1]) {
-                dp[i][j+1] = max(dp[i][j+1], dp[i][j] + b[i]);
+                dp[i][j+1] = max(dp[i][j+1], dp[i][j] + b[j + 1]);
             }
 
             dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j]);
