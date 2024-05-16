@@ -24,15 +24,16 @@ int main() {
         for(int j = 0; j < n; j++) {
             if(dp[i][j] == -1) continue;
 
-            if(a[i+1] < b[i+1]) {
-                dp[i+1][j] = max(dp[i+1][j], dp[i][j]);
-            }
+            // 카드 대결 - 첫 번째 플레이어의 카드가 더 작은 경우
+            if(a[i + 1] < b[j + 1])
+                dp[i + 1][j] = max(dp[i + 1][j], dp[i][j]);
 
-            if(a[i+1] > b[i+1]) {
-                dp[i][j+1] = max(dp[i][j+1], dp[i][j] + b[j + 1]);
-            }
+            // 카드 대결 - 두 번째 플레이어의 카드가 더 작은 경우
+            if(a[i + 1] > b[j + 1])
+                dp[i][j + 1] = max(dp[i][j + 1], dp[i][j] + b[j + 1]);
 
-            dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j]);
+            // 카드 버리기
+            dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j]);
         }
     }
 
