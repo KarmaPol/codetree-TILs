@@ -6,7 +6,7 @@ int n, m;
 
 int OFFSET = 30;
 int numbers[105];
-int dp[60][105];
+long long dp[60][105];
 
 int main() {
 
