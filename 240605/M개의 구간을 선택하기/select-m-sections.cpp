@@ -4,7 +4,7 @@ using namespace std;
 
 int n, m;
 int numbers[505];
-int dp[105][255];
+int dp[105][300];
 
 int main() {
 
