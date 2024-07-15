@@ -1,8 +1,6 @@
 #include <iostream>
 using namespace std;
 
-#define MAX_S 2000000000
-
 using namespace std;
 
 // 변수 선언
@@ -13,7 +11,7 @@ int main() {
     cin >> s;
 
     long long left = 1;                          // 가장 작은 숫자 값을 설정합니다.
-    long long right = MAX_S;                     // 가장 큰 숫자 값을 설정합니다.
+    long long right = s;                     // 가장 큰 숫자 값을 설정합니다.
     long long max_num = 0;                       // 최대이므로, 답이 될 수 있는 값보다 더 작은 값으로 설정합니다.
 
     while (left <= right) {                      // [left, right]가 유효한 구간이면 계속 수행합니다.
