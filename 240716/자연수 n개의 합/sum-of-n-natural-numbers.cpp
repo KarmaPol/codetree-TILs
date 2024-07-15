@@ -1,13 +1,13 @@
 #include <iostream>
 using namespace std;
 
-int s;
+long long s;
 
 int main() {
     cin >> s;
-    int n = 0;
+    long long n = 0;
 
-    int left = 1, right = s, mid = 0;
+    long long left = 1, right = s, mid = 0;
     while(left <= right) {
         mid = (left + right)/2;
 
