@@ -22,6 +22,7 @@ bool isPossible(int target) {
         if(current - last > target) {
             last = current;
             busCount++;
+            userCount = 1;
         }
     }
 
