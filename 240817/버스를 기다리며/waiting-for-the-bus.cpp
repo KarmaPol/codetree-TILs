@@ -11,6 +11,7 @@ bool isPossible(int target) {
 
     for(int i = 1; i < n; i++) {
         int current = members[i];
+        userCount++;
 
         if(userCount > c) {
             last = current;
@@ -21,7 +22,6 @@ bool isPossible(int target) {
         if(current - last > target) {
             last = current;
             busCount++;
-            userCount++;
         }
     }
 
@@ -34,6 +34,8 @@ int main() {
     for(int i = 0; i < n; i++) {
         cin >> members[i];
     }
+
+    sort(members, members + n);
 
     int left = 0, right = 1e9, mid;
     int answer = 1e9;
