@@ -14,12 +14,10 @@ int main() {
     }
 
     int coinCount = 0, coinIndex = n-1;
-    while(k > 0 && coinIndex > 0) {
-        if(coins[coinIndex] > k) continue;
-
-        coinCount += k/coins[coinIndex];
-        k = k % coins[coinIndex];
-        coinIndex--;
+    
+    for(int i = n-1; i > 0; i--) {
+        coinCount += k / coins[i];
+        k %= coins[i];
     }
 
     cout << coinCount;
