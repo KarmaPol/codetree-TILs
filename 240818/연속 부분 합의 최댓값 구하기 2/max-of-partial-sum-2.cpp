@@ -6,7 +6,7 @@ int n;
 int main() {
     cin >> n;
 
-    int sum = 0, summax = 0;
+    int sum = 0, summax = -2e9;
     for(int i = 0; i < n; i++) {
         int number;
         cin >> number;
