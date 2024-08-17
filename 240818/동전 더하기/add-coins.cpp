@@ -14,7 +14,7 @@ int main() {
     }
 
     int coinCount = 0, coinIndex = n-1;
-    while(k > 0) {
+    while(k > 0 && coinIndex > 0) {
         if(coins[coinIndex] > k) continue;
 
         coinCount += k/coins[coinIndex];
