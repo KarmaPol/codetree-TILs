@@ -32,18 +32,17 @@ bool isPossible(int index) {
 int main() {
     cin >> a >> b;
     
-    for(int i = 0; i < a.size(); i++) {
+    aSeries.push_back(a);
+    for(int i = 1; i <= a.size(); i++) {
         int deleteIndex;
         cin >> deleteIndex;
 
-        string copyA = a;
-        if(i != 0)
-            copyA = aSeries[i-1];
+        string copyA = aSeries[i-1];
         copyA[deleteIndex-1] = ' ';
         aSeries.push_back(copyA);
     }
 
-    int left = 0, right = a.size()-1, mid;
+    int left = 0, right = a.size(), mid;
     int answer = -2e9;
 
     while(left <= right) {
@@ -58,7 +57,7 @@ int main() {
         }
     }
 
-    cout << answer + 2;
+    cout << answer + 1;
 
     return 0;
 }
