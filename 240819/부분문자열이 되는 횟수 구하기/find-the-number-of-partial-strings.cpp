@@ -1,13 +1,10 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
 using namespace std;
 
-vector<string> aSeries;
-
 string a, b;
 
-bool isPossible(int index) {
+bool isPossible(int index, vector<string> aSeries) {
     string currentA = aSeries[index];
     int bIndex = 0;
     for(int i = 0; i < currentA.size(); i++) {
@@ -32,6 +29,7 @@ bool isPossible(int index) {
 int main() {
     cin >> a >> b;
     
+    vector<string> aSeries;
     aSeries.push_back(a);
     for(int i = 1; i <= a.size(); i++) {
         int deleteIndex;
@@ -48,7 +46,7 @@ int main() {
     while(left <= right) {
         mid = (left + right)/2;
 
-        if(isPossible(mid)) {
+        if(isPossible(mid, aSeries)) {
             answer = max(answer, mid);
             left = mid + 1;
         }
