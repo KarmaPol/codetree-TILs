@@ -18,16 +18,12 @@ bool isPossible(int index) {
         char currentCharA = a[i];
         char currentCharB = b[bIndex];
 
-        if(currentCharA == currentCharB) {
+        if(bIndex < b.size() && currentCharA == currentCharB) {
             bIndex++;
-        }
-
-        if(bIndex >= b.size()) {
-            return true;
         }
     }
 
-    return false;
+    return bIndex == b.size();
 }
 
 int main() {
