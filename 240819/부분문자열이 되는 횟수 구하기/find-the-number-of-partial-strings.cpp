@@ -27,7 +27,8 @@ bool isPossible(int index) {
 }
 
 int main() {
-    cin >> a >> b;
+    cin >> a;
+    cin >> b;
     
     for(int i = 1; i <= a.size(); i++) {
         cin >> del[i];
