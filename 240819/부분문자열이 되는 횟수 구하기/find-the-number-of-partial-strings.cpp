@@ -35,7 +35,7 @@ int main() {
     }
 
     int left = 0, right = a.size(), mid;
-    int answer = -2e9;
+    int answer = -1;
 
     while(left <= right) {
         mid = (left + right)/2;
