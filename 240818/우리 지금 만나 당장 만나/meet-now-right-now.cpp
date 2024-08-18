@@ -34,7 +34,7 @@ int main() {
         cin >> v[i];
     }
 
-    double left = 1, right = 1e9, mid;
+    double left = 0, right = 1e9, mid;
     double answer = 1e9;
 
     for(int i = 1; i <= 100; i++) {
