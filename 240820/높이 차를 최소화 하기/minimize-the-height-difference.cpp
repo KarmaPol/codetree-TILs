@@ -75,7 +75,7 @@ int main() {
         }
     }
 
-    int left = 1, right = 500, mid;
+    int left = 0, right = 500, mid;
     int answer = 500;
 
     while(left <= right) {
