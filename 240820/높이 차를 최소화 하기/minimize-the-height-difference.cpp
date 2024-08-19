@@ -6,32 +6,24 @@ using namespace std;
 int n, m;
 
 int map[105][105];
-pair<int, int> visited[105][105];
+int visited[105][105];
 
 int dy[4] = {1, 0, -1 ,0};
 int dx[4] = {0, 1 ,0, -1};
 
-void printVisited() {
-    for(int i =0; i< n; i++) {
-        for(int j = 0; j < m; j++) {
-            cout << abs(visited[i][j].first- visited[i][j].second) << '\n';
-        }
-    }
-}
-
 void initVisited() {
     for(int i =0; i< n; i++) {
         for(int j = 0; j < m; j++) {
-            visited[i][j] = {1000, -1000};
+            visited[i][j] = 0;
         }
     }
 }
 
-void bfs(int limit) {
+void bfs(int lo, int hi) {
     queue<pair<int, int>> q;
 
     q.push({0, 0});
-    visited[0][0] = {map[0][0], map[0][0]};
+    visited[0][0] = 1;
 
     while(!q.empty()) {
         pair<int, int> current = q.front(); q.pop();
@@ -42,14 +34,9 @@ void bfs(int limit) {
             int nextx = currentx + dx[i];
 
             if(nexty < 0 || nexty >= n || nextx < 0 || nextx >= m) continue;
-            int nextMin = min(visited[currenty][currentx].first, map[nexty][nextx]);
-            int nextMax = max(visited[currenty][currentx].second, map[nexty][nextx]);
-
-            if(abs(nextMax - nextMin) >= abs(visited[nexty][nextx].first - visited[nexty][nextx].second)) continue;
-            if(abs(nextMax - nextMin) > limit) continue;
-            // cout << currenty << ':' << currentx << "->" << nexty << ':' << nextx << " " << nextMax << ':' << nextMin << "  " << abs(nextMax - nextMin) << '\n';
-
-            visited[nexty][nextx].first = nextMin; visited[nexty][nextx].second = nextMax; 
+            if(visited[nexty][nextx]) continue;
+            if(map[nexty][nextx] < lo || map[nexty][nextx] > hi) continue;
+            visited[nexty][nextx] = 1;
 
             q.push({nexty, nextx});
         }
@@ -57,13 +44,18 @@ void bfs(int limit) {
 }
 
 bool isPossible(int limit) {
-    initVisited();
-    // cout << "current: " << limit << '\n';
+    for(int h = 1; h <= 500; h++) {
+        initVisited();
 
-    bfs(limit);
-    // printVisited();
+        int hmax = h + limit;
+        if(map[0][0] < h || map[0][0] > hmax) continue;
 
-    return abs(visited[n-1][m-1].first - visited[n-1][m-1].second) <= limit;
+        bfs(h, hmax);
+        
+        if(visited[n-1][m-1]) return true;
+    }
+
+    return false;
 }
 
 int main() {
@@ -92,4 +84,6 @@ int main() {
     cout << answer;
 
     return 0;
-}
+} 
+
+// 핵심은 h의 최소를 반복문 돌리고, 최대를 이분탐색으로 찾는것
