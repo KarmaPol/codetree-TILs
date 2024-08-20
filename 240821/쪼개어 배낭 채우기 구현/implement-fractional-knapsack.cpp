@@ -22,7 +22,7 @@ int main() {
     double totPrice = 0;
 
     int idx = 0;
-    while(m > 0) {
+    while(m > 0 && idx < n) {
         double currentPrice = jewels[idx].second, currentWeight = jewels[idx].first;
 
         if(m >= currentWeight) {
