@@ -31,7 +31,7 @@ int main() {
         }
         else {
             totPrice += m * (currentPrice/currentWeight);
-            m -= m;
+            m = 0;
         }
         idx++;
     }
