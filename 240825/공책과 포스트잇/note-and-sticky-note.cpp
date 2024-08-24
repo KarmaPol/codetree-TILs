@@ -11,15 +11,21 @@ bool cmp(int a, int b) {
 }
 
 bool isPossible(int h) {
+    int count = 0;
     long long usedWords = 0;
     
-    for(int i = 0; i < h; i++) {
-        if(notes[i] < h) {
-            usedWords += h - notes[i];
+    for(int i = 0; i < n; i++) {
+        if(notes[i] >= h) {
+            count++;
+            continue;
         }
+
+        if(h - notes[i] > k || h - notes[i] > totalPost - usedWords) break;
+        count++;
+        usedWords += h - notes[i];
     }
 
-    return usedWords <= totalPost && notes[h-1] + k >= h;
+    return count >= h;
 }
 
 int main() {
