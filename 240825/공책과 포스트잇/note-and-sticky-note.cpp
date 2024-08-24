@@ -14,13 +14,13 @@ bool isPossible(int h) {
     int count = 0;
     long long usedWords = 0;
     
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i < h; i++) {
         if(notes[i] < h) {
             usedWords += h - notes[i];
         }
     }
 
-    return usedWords <= totalPost && notes[h - 1] + k >= h;
+    return usedWords <= totalPost && notes[h-1] + k >= h;
 }
 
 int main() {
