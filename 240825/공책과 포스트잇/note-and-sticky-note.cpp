@@ -11,7 +11,6 @@ bool cmp(int a, int b) {
 }
 
 bool isPossible(int h) {
-    int count = 0;
     long long usedWords = 0;
     
     for(int i = 0; i < h; i++) {
@@ -26,7 +25,7 @@ bool isPossible(int h) {
 int main() {
     cin >> n >> k >> l;
 
-    totalPost = k*l;
+    totalPost = (long long) k*l;
 
     for(int i = 0; i < n; i++) {
         cin >> notes[i];
