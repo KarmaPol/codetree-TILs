@@ -2,7 +2,8 @@
 #include <algorithm>
 using namespace std;
 
-int n, k, l, totalPost;
+int n, k, l;
+long long totalPost;
 int notes[100005];
 
 bool cmp(int a, int b) {
@@ -11,7 +12,7 @@ bool cmp(int a, int b) {
 
 bool isPossible(int h) {
     int count = 0;
-    int usedWords = 0;
+    long long usedWords = 0;
     
     for(int i = 0; i < n; i++) {
         if(notes[i] >= h) {
