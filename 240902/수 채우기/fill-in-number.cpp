@@ -9,8 +9,8 @@ int main() {
     int count = 0;
 
     int fiveM = n/5; 
-    if(n % 2 == 1) {
-        fiveM -= 1;
+    if(n >= 5 && n % 2 == 1) {
+        fiveM--;
     }
     count += fiveM; n -= fiveM * 5;
     count += n / 2; n -= (n/2) * 2;
