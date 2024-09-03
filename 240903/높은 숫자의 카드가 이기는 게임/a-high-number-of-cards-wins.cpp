@@ -18,6 +18,7 @@ int main() {
     for(int i = 1; i <= 2*n; i++) {
         if(i > cardB[bidx]) {
             bidx++; answer++;
+            if(bidx >= n) break;
         }
     }
 
