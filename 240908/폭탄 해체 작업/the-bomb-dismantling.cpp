@@ -1,36 +1,35 @@
 #include <iostream>
 #include <algorithm>
+#include <queue>
 using namespace std;
 
 int n;
-
 pair<int, int> bombs[10005];
-
-bool cmp(pair<int, int> a, pair<int, int> b) {
-    if(a.second == b.second) {
-        return a.first > b.first;
-    }
-
-    return a.second < b.second;
-}
 
 int main() {
     cin >> n;
 
     for(int i = 0; i < n; i++) {
-        cin >> bombs[i].first >> bombs[i].second;
+        int price, time;
+        cin >> price >> time;
+        bombs[i]= {price, time};
     }
 
-    sort(bombs, bombs + n, cmp);
+    sort(bombs, bombs + n);
 
-    int time = 0, total = 0;
-    for(int i = 0; i < n; i++) {
-        int currentTime = bombs[i].second;
+    priority_queue<int> pq;
+    int bomb_idx = n - 1;
+    int total = 0;
 
-        if(time >= currentTime) continue;
+    for(int i = 10000; i > 0; i--) {
+        while(bomb_idx >= 0 && bombs[bomb_idx].second >= i) {
+            pq.push(bombs[bomb_idx].first);
+            bomb_idx--;
+        }
 
-        total += bombs[i].first;
-        time++;
+        if(!pq.empty()) {
+            total += pq.top(); pq.pop();
+        }
     }
 
     cout << total;
