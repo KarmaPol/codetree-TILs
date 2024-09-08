@@ -12,18 +12,18 @@ int main() {
     for(int i = 0; i < n; i++) {
         int price, time;
         cin >> price >> time;
-        bombs[i]= {price, time};
+        bombs[i]= {time, price};
     }
 
     sort(bombs, bombs + n);
 
-    priority_queue<int> pq;
+    priority_queue<int, vector<int>, less<int>> pq;
     int bomb_idx = n - 1;
     int total = 0;
 
     for(int i = 10000; i > 0; i--) {
-        while(bomb_idx >= 0 && bombs[bomb_idx].second >= i) {
-            pq.push(bombs[bomb_idx].first);
+        while(bomb_idx >= 0 && bombs[bomb_idx].first >= i) {
+            pq.push(bombs[bomb_idx].second);
             bomb_idx--;
         }
 
