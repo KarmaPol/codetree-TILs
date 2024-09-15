@@ -1,43 +1,53 @@
 #include <iostream>
-#include <queue>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-int n;
+bool cmp(pair<int, int> a, pair<int, int> b) {
+    return a.first < b.first;
+}
 
 int main() {
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> greaterq;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, less<pair<int, int>>> lessq;
-
+    int n;
     cin >> n;
 
-    int totalCount = 0;
+    vector<pair<int, int>> numbers(n); // 갯수, 숫자
+
     for(int i = 0; i < n; i++) {
-        int count, number;
-
-        cin >> count >> number;
-        totalCount += count;
-        greaterq.push({number, count}); lessq.push({number, count});
+        cin >> numbers[i].second >> numbers[i].first;
     }
-    totalCount /= 2;
 
+    sort(numbers.begin(), numbers.end(), cmp);
+
+    int leftIdx = 0, rightIdx = n - 1;
     int answer = -2e9;
-    while(totalCount >= 0 && !greaterq.empty() && !lessq.empty()) {
-        pair<int, int> currentg = greaterq.top(); greaterq.pop();
-        pair<int, int> currentl = lessq.top(); lessq.pop();
 
-        answer = max(answer, currentg.first + currentl.first);
-        totalCount--;
+    while(leftIdx <= rightIdx) {
+        int leftNumber = numbers[leftIdx].first, leftCount = numbers[leftIdx].second;
+        int rightNumber = numbers[rightIdx].first, rightCount = numbers[rightIdx].second;
 
-        if(currentg.second != 1) {
-            greaterq.push({currentg.first, currentg.second - 1});
+        answer = max(answer, leftNumber + rightNumber);
+
+        if(leftCount > rightCount) {
+            numbers[leftIdx].second -= rightCount;
+            numbers[rightIdx].second -=  rightCount;
+            rightIdx--;
         }
-        if(currentl.second != 1) {
-            lessq.push({currentl.first, currentl.second - 1});
+
+        else if(leftCount < rightCount) {
+            numbers[leftIdx].second -= leftCount;
+            numbers[rightIdx].second -=  leftCount;
+            leftIdx++;
+        }
+
+        else {
+            numbers[leftIdx].second -= leftCount;
+            numbers[rightIdx].second -=  leftCount;
+            leftIdx++; rightIdx--;
         }
     }
 
     cout << answer;
-        
 
     return 0;
 }
