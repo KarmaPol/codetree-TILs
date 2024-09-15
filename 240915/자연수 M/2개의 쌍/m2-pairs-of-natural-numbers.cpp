@@ -10,19 +10,23 @@ int main() {
 
     cin >> n;
 
+    int totalCount = 0;
     for(int i = 0; i < n; i++) {
         int count, number;
 
         cin >> count >> number;
+        totalCount += count;
         greaterq.push({number, count}); lessq.push({number, count});
     }
+    totalCount /= 2;
 
     int answer = -2e9;
-    while(!greaterq.empty() && !lessq.empty()) {
+    while(totalCount >= 0 && !greaterq.empty() && !lessq.empty()) {
         pair<int, int> currentg = greaterq.top(); greaterq.pop();
         pair<int, int> currentl = lessq.top(); lessq.pop();
 
         answer = max(answer, currentg.first + currentl.first);
+        totalCount--;
 
         if(currentg.second != 1) {
             greaterq.push({currentg.first, currentg.second - 1});
