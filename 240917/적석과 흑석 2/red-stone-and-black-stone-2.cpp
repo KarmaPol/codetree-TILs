@@ -1,42 +1,42 @@
 #include <algorithm>
 #include <iostream>
+#include <set>
 using namespace std;
 
 int c, n;
 
-int reds[100005];
 pair<int, int> blacks[100005];
 
 int main() {
     cin >> c >> n;
 
+    set<int> reds;
+
     for(int i = 0; i < c; i++) {
-        cin >> reds[i];
+        int red;
+        cin >> red;
+
+        reds.insert(red);
     }
 
     for(int i = 0; i < n; i++) {
-        cin >> blacks[i].first >> blacks[i].second;
+        cin >> blacks[i].second >> blacks[i].first;
     }
 
-    sort(reds, reds + c);
     sort(blacks, blacks + n);
 
     int rIdx = 0, bIdx = 0, answer = 0;
 
-    while(rIdx < c && bIdx < n) {
-        if(reds[rIdx] < blacks[bIdx].first) {
-            rIdx++;
-            continue;
-        }   
-        
-        if(reds[rIdx] > blacks[bIdx].second) {
-            bIdx++;
-            continue;
-        }
+    while(bIdx < n) {
+        if(reds.lower_bound(blacks[bIdx].second) != reds.end()) {
+            int red = *reds.lower_bound(blacks[bIdx].second);
 
-        // cout << "red : " << reds[rIdx] << "  black : " << blacks[bIdx].first << " ~ " << blacks[bIdx].second  << '\n'; 
-        answer++;
-        rIdx++; bIdx++;
+            if(red <= blacks[bIdx].first) {
+                answer++;
+                reds.erase(red);
+            }
+        }   
+        bIdx++;
     }
 
     cout << answer;
