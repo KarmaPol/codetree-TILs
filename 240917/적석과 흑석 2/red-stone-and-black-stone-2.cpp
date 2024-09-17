@@ -18,7 +18,7 @@ int main() {
         cin >> blacks[i].first >> blacks[i].second;
     }
 
-    sort(reds, reds + n);
+    sort(reds, reds + c);
     sort(blacks, blacks + n);
 
     int rIdx = 0, bIdx = 0, answer = 0;
@@ -34,6 +34,7 @@ int main() {
             continue;
         }
 
+        // cout << "red : " << reds[rIdx] << "  black : " << blacks[bIdx].first << " ~ " << blacks[bIdx].second  << '\n'; 
         answer++;
         rIdx++; bIdx++;
     }
