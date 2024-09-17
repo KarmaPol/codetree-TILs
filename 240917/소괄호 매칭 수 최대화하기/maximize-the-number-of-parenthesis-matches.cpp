@@ -34,7 +34,6 @@ int main() {
 
     int leftCount = 0, answer = 0;
 
-    cout << t << '\n';
     for(int i = 0; i < t.size(); i++) {
         if(t[i] == '(') {
             leftCount++;
