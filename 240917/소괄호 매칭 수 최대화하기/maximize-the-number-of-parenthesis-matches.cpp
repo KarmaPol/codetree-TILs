@@ -34,6 +34,8 @@ int main() {
 
     int leftCount = 0, answer = 0;
 
+    if(t.size() > 10000) cout << t.size();
+
     for(int i = 0; i < t.size(); i++) {
         if(t[i] == '(') {
             leftCount++;
