@@ -3,47 +3,42 @@
 using namespace std;
 
 int n;
+pair<int, int> brackets[100005];
 
-string inputs[100005];
-
-bool cmp(string a, string b) {
-    if(a == ")" && b[0] == ')') {
-        return a < b;
-    }
-    if(b == ")" && a[0] == ')') {
-        return a > b;
-    }
-    return a < b;
+bool cmp(pair<int, int> a, pair<int, int> b) {
+    return a.first * b.second > b.first * a.second;
 }
 
 int main() {
-
     cin >> n;
 
+    long long answer = 0;
+
     for(int i = 0; i < n; i++) {
-        cin >> inputs[i];
+        string bracket;
+        cin >> bracket;
+
+        int openCount = 0, closeCount = 0;
+        for(int i = 0; i < bracket.size(); i++) {
+            if(bracket[i] == '(') {
+                openCount++;
+            }
+            else {
+                closeCount++;
+
+                answer += openCount;
+            }
+        }
+        brackets[i] = {openCount, closeCount};
     }
 
-    sort(inputs, inputs+n, cmp);
+    sort(brackets, brackets + n, cmp);
 
-    string t;
+    int open_sum = 0;
     for(int i = 0; i < n; i++) {
-        // cout << inputs[i] << '\n';
-        t += inputs[i];
-    }
+        answer += (long long) open_sum * brackets[i].second;
 
-    int leftCount = 0, answer = 0;
-
-    if(t.size() > 10000) cout << t.size();
-
-    for(int i = 0; i < t.size(); i++) {
-        if(t[i] == '(') {
-            leftCount++;
-        }
-
-        else if(t[i] == ')') {
-            answer += leftCount;
-        }
+        open_sum += brackets[i].first;
     }
 
     cout << answer;
