@@ -24,7 +24,7 @@ public class Main {
         int HappyCount = 0;
         for(int i = 0; i < n; i++) {
             int prev = arr[i][0];
-            int combo = 0;
+            int combo = 1;
             for(int j = 1; j < n; j++) {
                 if(prev == arr[i][j]) {
                     combo++;
