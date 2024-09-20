@@ -6,6 +6,21 @@ public class Main {
     static int m;
 
     static int arr[][] = new int [105][105];
+    static int[] seq = new int[105];
+
+    static boolean isHappy() {
+        int combo = 1, maxCnt = 1;
+
+        for(int i = 1; i < n; i++) {
+            if(seq[i-1] == seq[i])
+                combo++;
+            else
+                combo = 1;
+            maxCnt = Math.max(maxCnt, combo);
+        }
+
+        return maxCnt >= m;
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,43 +38,19 @@ public class Main {
 
         int HappyCount = 0;
         for(int i = 0; i < n; i++) {
-            int prev = arr[i][0];
-            int combo = 0;
             for(int j = 0; j < n; j++) {
-                if(prev == arr[i][j]) {
-                    combo++;
-                }
-                else {
-                    prev = arr[i][j];
-                    combo = 0;
-                }
-                if(combo >= m) {
-                    HappyCount++;
-                    break;
-                }
+                seq[j] = arr[i][j];
             }
-            if(combo >= m) {    
+            if(isHappy()) {    
                 HappyCount++;
             }
         }
 
         for(int j = 0; j < n; j++) {
-            int prev = arr[0][j];
-            int combo = 0;
             for(int i = 0; i < n; i++) {
-                if(prev == arr[i][j]) {
-                    combo++;
-                }
-                else {
-                    prev = arr[i][j];
-                    combo = 0;
-                }
-                if(combo >= m) {
-                    HappyCount++;
-                    break;
-                }
+                seq[i] = arr[i][j];
             }
-            if(combo >= m) {
+            if(isHappy()) {
                 HappyCount++;
             }
         }
