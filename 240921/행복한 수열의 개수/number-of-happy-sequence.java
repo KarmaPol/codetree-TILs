@@ -24,13 +24,8 @@ public class Main {
         int HappyCount = 0;
         for(int i = 0; i < n; i++) {
             int prev = arr[i][0];
-            int combo = 1;
-            if(combo >= m) {
-                HappyCount++;
-                continue;
-            }
-
-            for(int j = 1; j < n; j++) {
+            int combo = 0;
+            for(int j = 0; j < n; j++) {
                 if(prev == arr[i][j]) {
                     combo++;
                 }
@@ -40,19 +35,18 @@ public class Main {
                 }
                 if(combo >= m) {
                     HappyCount++;
-                    continue;
+                    break;
                 }
+            }
+            if(combo >= m) {    
+                HappyCount++;
             }
         }
 
         for(int j = 0; j < n; j++) {
             int prev = arr[0][j];
-            int combo = 1;
-            if(combo >= m) {
-                HappyCount++;
-                continue;
-            }
-            for(int i = 1; i < n; i++) {
+            int combo = 0;
+            for(int i = 0; i < n; i++) {
                 if(prev == arr[i][j]) {
                     combo++;
                 }
@@ -62,8 +56,11 @@ public class Main {
                 }
                 if(combo >= m) {
                     HappyCount++;
-                    continue;
+                    break;
                 }
+            }
+            if(combo >= m) {
+                HappyCount++;
             }
         }
 
