@@ -26,7 +26,7 @@ public class Main {
         return maxSum;
     }
 
-    static int getBlockSum2Hori(int y, int x) {
+    static int getBlockSum2Vert(int y, int x) {
         int maxSum = 0;
 
         int horiSum = 0;
@@ -40,7 +40,7 @@ public class Main {
     }
 
 
-    static int getBlockSum2Vert(int y, int x) {
+    static int getBlockSum2Hori(int y, int x) {
         int maxSum = 0;
 
         int vertSum = 0;
