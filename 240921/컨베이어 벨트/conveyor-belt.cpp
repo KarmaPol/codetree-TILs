@@ -15,7 +15,7 @@ int main() {
         cin >> numbers[1][j];
     }
 
-    for(int time = 0; time < 1; time++) {
+    for(int time = 0; time < t; time++) {
         int temp1 = numbers[0][n-1];
         for(int i = n-1; i > 0; i--) {
             numbers[0][i] = numbers[0][i-1];
