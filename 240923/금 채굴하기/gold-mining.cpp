@@ -57,7 +57,7 @@ int main() {
     }
 
     int maxGoldCount = 0;
-    for(int k = 0; k <= n; k++) {
+    for(int k = 0; k <= 2*n; k++) {
         for(int y = 0; y < n; y++) {
             for(int x = 0; x < n; x++) {
                 initVisited();
