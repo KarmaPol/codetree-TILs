@@ -9,8 +9,8 @@ int dx[4] = {0, 1, 0, -1};
 int map[25][25];
 int visited[25][25];
 
-bool isPossible(int k, int y, int x) {
-    if(y + k > n-1 || y - k < 0 || x + k > n-1 || x - k < 0) return false;
+bool isPossible(int y, int x) {
+    if(y > n-1 || y < 0 || x > n-1 || x < 0) return false;
 
     return true;
 }
@@ -27,7 +27,8 @@ int dfs(int stage, int y, int x, int k) {
     for(int i = 0; i < 4; i++) {
         int nextY = y + dy[i], nextX = x + dx[i];
         if(visited[nextY][nextX]) continue;
-        
+        if(!isPossible(nextY, nextX)) continue;
+
         totalGold += dfs(stage + 1, nextY, nextX, k);
     }
 
@@ -56,10 +57,9 @@ int main() {
     }
 
     int maxGoldCount = 0;
-    for(int k = 0; k <= n/2; k++) {
+    for(int k = 0; k <= n; k++) {
         for(int y = 0; y < n; y++) {
             for(int x = 0; x < n; x++) {
-                if(!isPossible(k, y, x)) continue;
                 initVisited();
                 visited[y][x] = 1;
                 int gold = dfs(0, y, x, k);
