@@ -40,7 +40,7 @@ int main() {
                 for(int q = 0; q < m; q++) {
                     int secondY = p, secondX = q;
 
-                    if(firstY == secondY || firstX == secondX) continue;
+                    if(firstY <= secondY || firstX <= secondX) continue;
 
                     if(!isAllPositive(firstY, firstX, secondY, secondX)) continue;
                     // cout << firstY << " " << firstX << " " << secondY << " " << secondX << '\n';
