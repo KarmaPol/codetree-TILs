@@ -15,7 +15,7 @@ bool isAllPositive(int firstY, int firstX, int secondY, int secondX) {
 
     for(int i = lessY; i <= greaterY; i++) {
         for(int j = lessX; j <= greaterX; j++) {
-            if(map[i][j] < 0) return false;
+            if(map[i][j] < 1) return false;
         }
     }
     return true;
@@ -24,7 +24,7 @@ bool isAllPositive(int firstY, int firstX, int secondY, int secondX) {
 int main() {
     cin >> n >> m;
 
-    int maxSize = 0;
+    int maxSize = -1;
 
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < m; j++) {
@@ -43,7 +43,7 @@ int main() {
                     if(firstY == secondY || firstX == secondX) continue;
 
                     if(!isAllPositive(firstY, firstX, secondY, secondX)) continue;
-                    // cout << firstY << " " << firstX << " " << secondY << " " << secondX << '\n';
+                    cout << firstY << " " << firstX << " " << secondY << " " << secondX << '\n';
                     maxSize = max(maxSize, (abs(secondY-firstY)+1)*(abs(secondX-firstX)+1));
                 }
             }
