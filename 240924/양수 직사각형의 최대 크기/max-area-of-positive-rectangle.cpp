@@ -15,7 +15,7 @@ bool isAllPositive(int firstY, int firstX, int secondY, int secondX) {
 
     for(int i = lessY; i <= greaterY; i++) {
         for(int j = lessX; j <= greaterX; j++) {
-            if(map[i][j] < 1) return false;
+            if(map[i][j] < 0) return false;
         }
     }
     return true;
