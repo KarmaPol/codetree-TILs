@@ -43,7 +43,7 @@ int main() {
                     if(firstY == secondY || firstX == secondX) continue;
 
                     if(!isAllPositive(firstY, firstX, secondY, secondX)) continue;
-                    cout << firstY << " " << firstX << " " << secondY << " " << secondX << '\n';
+                    // cout << firstY << " " << firstX << " " << secondY << " " << secondX << '\n';
                     maxSize = max(maxSize, (abs(secondY-firstY)+1)*(abs(secondX-firstX)+1));
                 }
             }
