@@ -72,6 +72,7 @@ public class Main {
         while(bomb()) {
             gravity();
         }
+        gravity();
 
         StringBuilder sb = new StringBuilder();
         int count = 0;
