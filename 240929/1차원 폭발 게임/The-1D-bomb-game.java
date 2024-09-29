@@ -11,6 +11,8 @@ public class Main {
     static boolean bomb() {
         int prev = bombs[0], combo = 1, last = n-1;
         boolean isBomb = false;
+        if(prev == 0) return false;
+
         for(int i = 1; i < n; i++) {
             if(bombs[i] == 0) {
                 last = i-1;
@@ -76,7 +78,8 @@ public class Main {
         while(bomb()) {
             gravity();
         }
-        gravity();
+        // bomb();
+        // gravity();
 
         StringBuilder sb = new StringBuilder();
         int count = 0;
