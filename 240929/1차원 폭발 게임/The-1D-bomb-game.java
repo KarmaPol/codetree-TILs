@@ -5,6 +5,8 @@ public class Main {
     static int n, m;
 
     static int[] bombs = new int [105];
+    static int[] tempBombs = new int[105];
+
     
     static boolean bomb() {
         int prev = bombs[0], combo = 1, last = n-1;
@@ -43,8 +45,10 @@ public class Main {
     }
 
     static void gravity() {
-        int[] tempBombs = new int[105];
-
+        for(int i = 0; i < n; i++) {
+            tempBombs[i] = 0;
+        }
+        
         int t = 0;
         for(int i = 0; i < n; i++) {
             if(bombs[i] == 0) continue;
