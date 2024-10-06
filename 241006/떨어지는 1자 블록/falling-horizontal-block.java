@@ -8,7 +8,7 @@ public class Main {
 
     static boolean isPossible(int y, int x) {
         for(int i = 0; i < m; i++) {
-            if(y > n-1) return false;
+            if(y+1 > n-1) return false;
             if(map[y + 1][x + i] == 1) return false;
         }
         return true;
